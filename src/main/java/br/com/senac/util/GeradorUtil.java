@@ -135,9 +135,9 @@ public class GeradorUtil {
 
     public static Pedido gerarPedido() {
         Date data = new Date();        
-        Pedido ped = new Pedido(0, BigDecimal.ZERO, data);
+        Pedido pedido = new Pedido(0, BigDecimal.ZERO, data);
 
-        return ped;
+        return pedido;
     }
 
     public static void main(String[] args) {

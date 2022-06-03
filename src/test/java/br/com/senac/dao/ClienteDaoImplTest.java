@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -33,11 +34,11 @@ public class ClienteDaoImplTest {
         clienteDao = new ClienteDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testSalvar() {
         System.out.println("Salvar");
 
-        cliente = new Cliente(false, "Víter", "Vit@gmasil.com", "888758988");
+        cliente = new Cliente(false, "Vítor", "Vito@gmail.com", "898778988");
         List<Endereco> enderecos = new ArrayList<>();
         enderecos.add(gerarEndereco());
         cliente.setEnderecos(enderecos);
@@ -82,6 +83,36 @@ public class ClienteDaoImplTest {
         List<Cliente> result = instance.askPerName(nome, session);
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
+    }
+    
+    @Test
+    public void testAskPerTel(){
+        System.out.println("askPerTel");
+        clienteBd();
+        
+        session = HibernateUtil.abrirConexao();
+        Cliente clienteTel = clienteDao.askPerTell(cliente.getTelefone(), session);
+        session.close();
+        
+        assertNotNull(clienteTel);
+        assertTrue(!clienteTel.getPedidos().isEmpty());
+        
+        System.out.println(cliente.getNome());
+    }
+    
+    
+    public Cliente clienteBd(){
+        String hql = "from Cliente c";
+        session = HibernateUtil.abrirConexao();
+        Query<Cliente> consult = session.createQuery(hql);
+        List<Cliente> clientes = consult.getResultList();
+        session.close();
+        if (clientes.isEmpty()){
+            testSalvar();
+        } else {
+            cliente = clientes.get(0);
+        }
+        return cliente;
     }
 
 }

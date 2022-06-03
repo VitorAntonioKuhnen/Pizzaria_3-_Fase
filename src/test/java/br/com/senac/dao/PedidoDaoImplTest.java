@@ -5,11 +5,16 @@
  */
 package br.com.senac.dao;
 
+import br.com.senac.entidade.Cliente;
 import br.com.senac.entidade.Pedido;
 import java.util.List;
 import org.hibernate.Session;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static br.com.senac.util.GeradorUtil.*;
+import java.math.BigDecimal;
+import java.util.Collections;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -23,6 +28,21 @@ public class PedidoDaoImplTest {
 
     public PedidoDaoImplTest() {
         pedidoDao = new PedidoDaoImpl();
+    }
+
+    @Test
+    public void testSalvar() {
+        System.out.println("Salvar");
+        ClienteDaoImplTest cdit = new ClienteDaoImplTest();
+
+        Pedido pedido = gerarPedido();
+        pedido.setCliente(buscarClienteBd());
+        session = HibernateUtil.abrirConexao();
+        pedidoDao.saveOrAlter(pedido, session);
+        session.close();
+        
+        assertNotNull(pedido.getId());
+
     }
 
 //    @Test
@@ -47,6 +67,15 @@ public class PedidoDaoImplTest {
         List<Pedido> result = instance.askPerName(nome, session);
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
+    }
+
+    public Cliente buscarClienteBd() {
+        session = HibernateUtil.abrirConexao();
+        Query<Cliente> consulta = session.createQuery("from Cliente c");
+        List<Cliente> clientes = consulta.getResultList();
+        session.close();
+        Collections.shuffle(clientes);
+        return clientes.get(0);
     }
 
 }

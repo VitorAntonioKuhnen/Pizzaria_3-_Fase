@@ -29,5 +29,12 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
         consult.setParameter("nome", "%" + nome + "%");
         return consult.getResultList();
     }
+
+    @Override
+    public Cliente askPerTell(String telefone, Session session) throws HibernateException {
+        Query<Cliente> consult = session.createQuery("select distinct (c) from Cliente c join fetch c.pedidos where c.telefone = :telefone");
+        consult.setParameter("telefone", telefone);
+        return consult.getSingleResult();
+    }
     
 }
