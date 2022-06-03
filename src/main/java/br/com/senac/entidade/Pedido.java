@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 /**
  *
@@ -30,19 +31,29 @@ public class Pedido implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private int numero;
-    
+
     @Column(nullable = false)
     private BigDecimal valorTotal;
-    
+
     @Column(nullable = false)
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date dt_pedido;
-    
+
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
+
+    public Pedido() {
+    }
+
+    public Pedido(int numero, BigDecimal valorTotal, Date dt_pedido) {
+        this.numero = numero;
+        this.valorTotal = valorTotal;
+        this.dt_pedido = dt_pedido;
+    }
 
     public Long getId() {
         return id;
@@ -50,6 +61,38 @@ public class Pedido implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    public Date getDt_pedido() {
+        return dt_pedido;
+    }
+
+    public void setDt_pedido(Date dt_pedido) {
+        this.dt_pedido = dt_pedido;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override
@@ -76,5 +119,5 @@ public class Pedido implements Serializable {
     public String toString() {
         return "br.com.senac.entidade.Pedido[ id=" + id + " ]";
     }
-    
+
 }

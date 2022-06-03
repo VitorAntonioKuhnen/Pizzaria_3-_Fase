@@ -5,6 +5,15 @@
  */
 package br.com.senac.util;
 
+import br.com.senac.entidade.Endereco;
+import br.com.senac.entidade.Pedido;
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author silvio.junior
@@ -45,27 +54,27 @@ public class GeradorUtil {
 
     public static String gerarNome() {
         String[] nomes = {"Junior", "Marcos", "Ana", "Maria", "Silvio", "Suelen", "Joana", "Mateus",
-                          "Lúcio", "João", "Leandro", "Soeli"};
+            "Lúcio", "João", "Leandro", "Soeli"};
         int indice = (int) (Math.random() * nomes.length);
         return nomes[indice] + " " + gerarSobrenome();
     }
-    
+
     private static String gerarSobrenome() {
-        String[] sobrenomes = {"Pereira", "Oliveira", "Antunes", "da Silva", "Santos", "Rocha", "Moura", 
+        String[] sobrenomes = {"Pereira", "Oliveira", "Antunes", "da Silva", "Santos", "Rocha", "Moura",
             "Dias", "Mendes", "Albino", "Dutra", "Mendonça"};
         int indice = (int) (Math.random() * sobrenomes.length);
         return sobrenomes[indice];
     }
-    
+
     public static String gerarCidade() {
         String[] cidades = {"São José", "Palhoça", "Florianópolis", "Criciuma", "Chapecó", "Curitiba",
             "Porto Alegre", "São Paulo", "Máceio", "Biguaçú", "Belo Horizonte", "Pinhais"};
         int indice = (int) (Math.random() * cidades.length);
         return cidades[indice];
     }
-    
-    public static String gerarLogin(){
-        String nome = gerarNome();        
+
+    public static String gerarLogin() {
+        String nome = gerarNome();
         return nome.toLowerCase() + "@";
     }
 
@@ -81,6 +90,54 @@ public class GeradorUtil {
             senha += letras[indice];
         }
         return senha;
+    }
+
+    public static String gerarBairro() {
+
+        List<String> listaBairros = Arrays.asList("Centro Histórico",
+                "Ponta de Baixo", "Distrito Industrial", "Picadas do Sul",
+                "Flor de Nápolis", "São Luiz", "Roçado", "Potecas", "Serraria");
+
+        Collections.shuffle(listaBairros);
+
+        return listaBairros.get(0);
+
+    }
+
+    public static String gerarPais() {
+
+        List<String> paises = Arrays.asList("brasil", "argentina", "uruguai",
+                "paraguai", "estados unidos", "canadá", "mexico", "bolivia",
+                "peru", "chile");
+
+        Collections.shuffle(paises);
+
+        return paises.get(0);
+
+    }
+
+    public static String gerarEstado() {
+
+        List<String> paises = Arrays.asList("Santa carartina", "Parana", "São paulo",
+                "Rio grande do sul", "Paraiba", "Pernanbuco", "Amazonia", "Acre",
+                "Recife", "Rio de Janeiro");
+
+        Collections.shuffle(paises);
+
+        return paises.get(0);
+
+    }
+
+    public static Endereco gerarEndereco() {
+        Endereco end = new Endereco("Rua Eliane Gerlach", gerarBairro(), gerarNumero(2), gerarCidade(), "Casa", gerarCep());
+        return end;
+    }
+
+    public static Pedido gerarPedido() {
+        Date data = new Date();        
+        Pedido ped = new Pedido(0, BigDecimal.ZERO, data);
+
+        return ped;
     }
 
     public static void main(String[] args) {

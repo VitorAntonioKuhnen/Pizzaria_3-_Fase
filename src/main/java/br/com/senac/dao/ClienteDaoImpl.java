@@ -25,7 +25,7 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
 
     @Override
     public List<Cliente> askPerName(String nome, Session session) throws HibernateException {
-        Query<Cliente> consult = session.createQuery("from Cliente c where c.nome like :nome");
+        Query<Cliente> consult = session.createQuery("from Cliente c join fetch c.enderecos where c.nome like :nome");
         consult.setParameter("nome", "%" + nome + "%");
         return consult.getResultList();
     }

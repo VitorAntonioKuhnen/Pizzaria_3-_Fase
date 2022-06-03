@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * @author vitor.kuhnen
  */
 public class FornecedorDaoImplTest {
-    
+
     public FornecedorDaoImplTest() {
     }
 
@@ -43,5 +43,5 @@ public class FornecedorDaoImplTest {
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
-    
+
 }

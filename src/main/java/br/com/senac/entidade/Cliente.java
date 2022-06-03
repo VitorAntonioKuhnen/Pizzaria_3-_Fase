@@ -44,6 +44,16 @@ public class Cliente extends Pessoa{
     public void setCupom(boolean cupom) {
         this.cupom = cupom;
     }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+    }
+    
+    
     
     
     

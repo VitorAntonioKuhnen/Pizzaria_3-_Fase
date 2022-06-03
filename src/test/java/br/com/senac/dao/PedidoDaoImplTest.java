@@ -16,11 +16,16 @@ import static org.junit.Assert.*;
  * @author vitor.kuhnen
  */
 public class PedidoDaoImplTest {
-    
+
+    private Session session;
+    private Pedido pedido;
+    private PedidoDao pedidoDao;
+
     public PedidoDaoImplTest() {
+        pedidoDao = new PedidoDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testPesquisarPorId() {
         System.out.println("pesquisarPorId");
         Long id = null;
@@ -32,7 +37,7 @@ public class PedidoDaoImplTest {
         fail("The test case is a prototype.");
     }
 
-    @Test
+//    @Test
     public void testAskPerName() {
         System.out.println("askPerName");
         String nome = "";
@@ -43,5 +48,5 @@ public class PedidoDaoImplTest {
         assertEquals(expResult, result);
         fail("The test case is a prototype.");
     }
-    
+
 }

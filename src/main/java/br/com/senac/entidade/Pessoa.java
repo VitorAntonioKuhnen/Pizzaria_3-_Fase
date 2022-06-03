@@ -6,6 +6,7 @@
 package br.com.senac.entidade;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -14,7 +15,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "pessoa")
-@Inheritance (strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -31,10 +32,9 @@ public class Pessoa implements Serializable {
 
     @Column(nullable = false)
     private String telefone;
-    
-    
-    @OneToOne(mappedBy = "pessoa", cascade = CascadeType.ALL)
-    private Endereco endereco;
+
+    @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos;
 
     public Pessoa() {
     }
@@ -77,7 +77,13 @@ public class Pessoa implements Serializable {
         this.telefone = telefone;
     }
 
-    
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
 
     @Override
     public int hashCode() {
