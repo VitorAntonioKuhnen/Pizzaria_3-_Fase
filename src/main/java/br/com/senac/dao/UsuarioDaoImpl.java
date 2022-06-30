@@ -26,16 +26,14 @@ public class UsuarioDaoImpl extends BaseDaoImpl<Usuario, Long> implements Usuari
 
     @Override
     public Usuario askPerUserAndPassword(String usuario, String senha, Session session) throws HibernateException {
-        Query<Usuario> consultUser = session.createQuery("from Usuario u where u.user = :user");
-        consultUser.setParameter("user", usuario);
-        Boolean user = consultUser.getResultList().isEmpty();
+        Query<Usuario> consultUsers = session.createQuery("from Usuario u where u.user = :user and u.senha = :senha");
+        consultUsers.setParameter("user", usuario);
+        consultUsers.setParameter("senha", senha);
         
-        Query<Usuario> consultPassword = session.createQuery("from Usuario where senha = :senha");
-        consultPassword.setParameter("senha", senha);
-        Boolean password = consultPassword.getResultList().isEmpty();
+        Boolean user = consultUsers.getResultList().isEmpty();
         
-        if (password == false && user == false) {
-            return (Usuario) consultPassword.getResultList();
+        if (user == false) {
+            return consultUsers.getSingleResult();
         }else{
             return null;
         }

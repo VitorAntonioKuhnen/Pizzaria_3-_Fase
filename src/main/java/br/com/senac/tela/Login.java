@@ -20,14 +20,16 @@ public class Login extends javax.swing.JFrame {
     /**
      * Creates new form Login
      */
-    
     private UsuarioDao usuarioDao;
     private Session session;
     private Usuario usuario;
-    
+
     public Login() {
         initComponents();
         usuarioDao = new UsuarioDaoImpl();
+        lbError.setVisible(false);
+        lbAstUser.setVisible(false);
+        lbAstSenha.setVisible(false);
     }
 
     /**
@@ -39,18 +41,23 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         titulo = new javax.swing.JLabel();
         lbUser = new javax.swing.JLabel();
         lbSenha = new javax.swing.JLabel();
-        varSenha = new javax.swing.JPasswordField();
-        varUser = new javax.swing.JTextField();
         btLogar = new javax.swing.JButton();
-
-        jButton1.setText("jButton1");
+        lbError = new javax.swing.JLabel();
+        lbAstUser = new javax.swing.JLabel();
+        lbAstSenha = new javax.swing.JLabel();
+        varUser = new javax.swing.JTextField();
+        varSenha = new javax.swing.JPasswordField();
+        jToggleButton1 = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
+        setAutoRequestFocus(false);
+        setFocusCycleRoot(false);
+        setResizable(false);
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -64,7 +71,7 @@ public class Login extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(titulo, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
         );
 
         lbUser.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
@@ -81,41 +88,82 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        lbError.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        lbError.setForeground(new java.awt.Color(255, 0, 0));
+        lbError.setText("Usuário ou Senha inválidos!!");
+        lbError.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lbError.setOpaque(true);
+
+        lbAstUser.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstUser.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstUser.setText("*");
+
+        lbAstSenha.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstSenha.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstSenha.setText("*");
+
+        jToggleButton1.setText("jToggleButton1");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lbUser)
-                    .addComponent(lbSenha))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(varUser)
-                    .addComponent(varSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(86, 86, 86)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbError)
+                            .addComponent(varSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .addComponent(varUser))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbAstSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 17, Short.MAX_VALUE)
+                            .addComponent(lbAstUser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(lbUser))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(143, 143, 143)
+                        .addComponent(lbSenha))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(btLogar)))
+                .addContainerGap(55, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btLogar)
-                .addGap(116, 116, 116))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jToggleButton1)
+                .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(69, 69, 69)
+                .addGap(37, 37, 37)
+                .addComponent(lbUser)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbUser)
+                    .addComponent(lbAstUser)
                     .addComponent(varUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbSenha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbSenha)
+                    .addComponent(lbAstSenha)
                     .addComponent(varSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                .addGap(18, 18, 18)
+                .addComponent(lbError, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btLogar)
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jToggleButton1)
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -123,11 +171,49 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogarActionPerformed
-        session = HibernateUtil.abrirConexao();
-        Usuario user = usuarioDao.askPerUserAndPassword(varUser.getText(), String.valueOf(varSenha.getPassword()), session);
-        session.close();
-        System.out.println("Usuario: " + user.getUser() + "\nSenha: " + user.getSenha() + "\nPermissão: " + user.getPermissao());
+        String usuario = varUser.getText();
+        String senha = String.valueOf(varSenha.getPassword());
+
+        if (!usuario.isEmpty() && !senha.isEmpty()) {
+            lbAstUser.setVisible(false);
+            lbAstSenha.setVisible(false);
+
+            try {
+                session = HibernateUtil.abrirConexao();
+                Usuario user = usuarioDao.askPerUserAndPassword(usuario, senha, session);
+                session.close();
+                System.out.println("Usuario: " + user.getUser() + "\nSenha: " + user.getSenha() + "\nPermissão: " + user.getPermissao());
+                new Principal1().setVisible(true);
+            } catch (Exception e) {
+                lbError.setVisible(true);
+            }
+        } else {
+            if (usuario.isEmpty()) {
+                lbError.setVisible(false);
+                lbAstUser.setVisible(true);
+                if (!senha.isEmpty()) {
+                    lbAstSenha.setVisible(false);
+
+                }
+            }
+            if (senha.isEmpty()) {
+                lbError.setVisible(false);
+                lbAstSenha.setVisible(true);
+                if (!usuario.isEmpty()) {
+                    lbAstUser.setVisible(false);
+
+                }
+            }
+            usuario = "";
+            senha = "";
+
+        }
+
     }//GEN-LAST:event_btLogarActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        new Principal1().setVisible(true);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -166,8 +252,11 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btLogar;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel lbAstSenha;
+    private javax.swing.JLabel lbAstUser;
+    private javax.swing.JLabel lbError;
     private javax.swing.JLabel lbSenha;
     private javax.swing.JLabel lbUser;
     private javax.swing.JLabel titulo;

@@ -11,6 +11,7 @@ import br.com.senac.entidade.Endereco;
 import br.com.senac.entidade.Fornecedor;
 import br.com.senac.entidade.Pedido;
 import br.com.senac.entidade.Pessoa;
+import br.com.senac.entidade.Usuario;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -33,6 +34,7 @@ public class HibernateUtil {
             cfg.addAnnotatedClass(Pessoa.class);
             cfg.addAnnotatedClass(Fornecedor.class);
             cfg.addAnnotatedClass(Pedido.class);
+            cfg.addAnnotatedClass(Usuario.class);
 
             cfg.configure("/META-INF/hibernate.cfg.xml");
             StandardServiceRegistryBuilder build = new StandardServiceRegistryBuilder().
