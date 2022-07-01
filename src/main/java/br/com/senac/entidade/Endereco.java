@@ -42,11 +42,11 @@ public class Endereco implements Serializable {
     private String cidade;
 
     @Column(nullable = false)
-    private String complemento;
+    private String Estado;
 
     @Column(nullable = false)
-    private String observacao;
-    
+    private String complemento;
+
     @ManyToOne
     @JoinColumn(name = "id_pessoa")
     private Pessoa pessoa;
@@ -54,13 +54,13 @@ public class Endereco implements Serializable {
     public Endereco() {
     }
 
-    public Endereco(String logradouro, String numero, String bairro, String cidade, String complemento, String observacao) {
+    public Endereco(String logradouro, String numero, String bairro, String cidade, String Estado, String complemento) {
         this.logradouro = logradouro;
         this.numero = numero;
         this.bairro = bairro;
         this.cidade = cidade;
+        this.Estado = Estado;
         this.complemento = complemento;
-        this.observacao = observacao;
     }
 
     public Long getId() {
@@ -103,20 +103,20 @@ public class Endereco implements Serializable {
         this.cidade = cidade;
     }
 
+    public String getEstado() {
+        return Estado;
+    }
+
+    public void setEstado(String Estado) {
+        this.Estado = Estado;
+    }
+
     public String getComplemento() {
         return complemento;
     }
 
     public void setComplemento(String complemento) {
         this.complemento = complemento;
-    }
-
-    public String getObservacao() {
-        return observacao;
-    }
-
-    public void setObservacao(String observacao) {
-        this.observacao = observacao;
     }
 
     public Pessoa getPessoa() {
@@ -126,8 +126,6 @@ public class Endereco implements Serializable {
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
-    
-    
 
     @Override
     public int hashCode() {
