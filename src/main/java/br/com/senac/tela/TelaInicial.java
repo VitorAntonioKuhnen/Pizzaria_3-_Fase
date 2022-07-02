@@ -57,11 +57,11 @@ public class TelaInicial extends javax.swing.JFrame {
         jDP.setLayout(jDPLayout);
         jDPLayout.setHorizontalGroup(
             jDPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 845, Short.MAX_VALUE)
         );
         jDPLayout.setVerticalGroup(
             jDPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 490, Short.MAX_VALUE)
         );
 
         lbUser.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
@@ -170,7 +170,6 @@ public class TelaInicial extends javax.swing.JFrame {
         jDP.add(cadCliente);
         cadCliente.setVisible(true);
         centralizaForm(cadCliente);
-
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

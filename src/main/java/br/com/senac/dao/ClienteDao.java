@@ -18,4 +18,6 @@ public interface ClienteDao extends BaseDao<Cliente, Long>{
     List<Cliente> askPerName(String nome, Session session) throws HibernateException;
     
     Cliente askPerTell(String telefone, Session session) throws HibernateException;
+    
+    String askPerEmail(String email, Session session) throws HibernateException;
 }

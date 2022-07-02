@@ -36,5 +36,12 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
         consult.setParameter("telefone", telefone);
         return consult.getSingleResult();
     }
+
+    @Override
+    public String askPerEmail(String email, Session session) throws HibernateException {
+        Query<String> consult = session.createQuery("select c.email from Cliente c where c.email = :email");
+        consult.setParameter("email", email);
+        return consult.uniqueResult();
+    }
     
 }
