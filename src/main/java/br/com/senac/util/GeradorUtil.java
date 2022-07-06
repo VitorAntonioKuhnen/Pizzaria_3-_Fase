@@ -128,10 +128,10 @@ public class GeradorUtil {
 
     }
 
-    public static Endereco gerarEndereco() {
-        Endereco end = new Endereco("Rua Eliane Gerlach", gerarBairro(), gerarNumero(2), gerarCidade(), "Casa", gerarCep());
-        return end;
-    }
+//    public static Endereco gerarEndereco() {
+//        Endereco end = new Endereco("Rua Eliane Gerlach", gerarBairro(), gerarNumero(2), gerarCidade(), "Casa", gerarCep());
+//        return end;
+//    }
 
     public static Pedido gerarPedido() {
         Date data = new Date();        

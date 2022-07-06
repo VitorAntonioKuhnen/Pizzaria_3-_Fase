@@ -216,8 +216,8 @@ public class Principal extends javax.swing.JFrame {
         } else {
             cliente = new Cliente(false, varNome.getText().trim(), varEmail.getText().trim(), varNumero.getText().trim());
             List<Endereco> enderecos = new ArrayList<>();
-            endereco = new Endereco(enderecoApi.getLogradouro(), varNumero.getText().trim(), enderecoApi.getBairro(), enderecoApi.getLocalidade() + "-" + 
-                    enderecoApi.getUf(), enderecoApi.getComplemento(), "Teste");
+//            endereco = new Endereco(enderecoApi.getLogradouro(), varNumero.getText().trim(), enderecoApi.getBairro(), enderecoApi.getLocalidade() + "-" + 
+//                    enderecoApi.getUf(), enderecoApi.getComplemento(), "Teste");
             enderecos.add(endereco);
             cliente.setEnderecos(enderecos);
             for (Endereco endereco : enderecos) {

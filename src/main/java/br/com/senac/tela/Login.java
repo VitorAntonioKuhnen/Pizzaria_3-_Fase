@@ -174,6 +174,7 @@ public class Login extends javax.swing.JFrame {
                 new TelaInicial(user).setVisible(true);
                 dispose();
             } catch (Exception e) {
+                System.out.println("Erro ao verificar usuario/senha " + e);
                 lbError.setVisible(true);
             }
         } else {

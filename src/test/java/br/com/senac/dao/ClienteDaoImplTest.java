@@ -34,13 +34,13 @@ public class ClienteDaoImplTest {
         clienteDao = new ClienteDaoImpl();
     }
 
-//    @Test
+    @Test
     public void testSalvar() {
         System.out.println("Salvar");
 
-        cliente = new Cliente(false, "Vítor", "Vito@gmail.com", "898778988");
+        cliente = new Cliente(false, "Vítor", "vitor@gmail.com", "898778988");
         List<Endereco> enderecos = new ArrayList<>();
-        enderecos.add(gerarEndereco());
+//        enderecos.add(gerarEndereco());
         cliente.setEnderecos(enderecos);
 
         for (Endereco endereco : enderecos) {
@@ -85,7 +85,7 @@ public class ClienteDaoImplTest {
         fail("The test case is a prototype.");
     }
     
-    @Test
+//    @Test
     public void testAskPerTel(){
         System.out.println("askPerTel");
         clienteBd();

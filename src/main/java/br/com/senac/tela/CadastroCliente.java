@@ -32,12 +32,15 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
     private ClienteDao clienteDao;
     private Endereco endereco;
     private Controlador controlador;
+    private EnderecoDTO enderecoDTO;
 
     public CadastroCliente() {
         initComponents();
         clienteDao = new ClienteDaoImpl();
+        enderecoDTO = new EnderecoDTO();
         lbAstEmail.setVisible(false);
         lbAstName.setVisible(false);
+        cliente = new Cliente();
     }
 
     /**
@@ -60,7 +63,6 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         varCep = new javax.swing.JTextField();
         lbNúmero = new javax.swing.JLabel();
         varNumero = new javax.swing.JFormattedTextField();
-        jButton1 = new javax.swing.JButton();
         lbLogradouro = new javax.swing.JLabel();
         lbBairro = new javax.swing.JLabel();
         lbUf = new javax.swing.JLabel();
@@ -74,7 +76,11 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         varTel = new javax.swing.JFormattedTextField();
         lbAstName = new javax.swing.JLabel();
         lbAstEmail = new javax.swing.JLabel();
-        jToggleButton1 = new javax.swing.JToggleButton();
+        lbAstNum = new javax.swing.JLabel();
+        lbAstLograd = new javax.swing.JLabel();
+        lbAstBairro = new javax.swing.JLabel();
+        lbAstUf = new javax.swing.JLabel();
+        lbAstLocal = new javax.swing.JLabel();
 
         setClosable(true);
 
@@ -141,16 +147,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
 
         varNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         varNumero.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jButton1.setText("Buscar");
-        jButton1.setAutoscrolls(true);
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        varNumero.setEnabled(false);
 
         lbLogradouro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbLogradouro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -170,11 +167,19 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbUf.setAutoscrolls(true);
         lbUf.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varLocalidade.setEnabled(false);
+
         lbLocalidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbLocalidade.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbLocalidade.setText("Localidade:");
         lbLocalidade.setAutoscrolls(true);
         lbLocalidade.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        varUf.setEnabled(false);
+
+        varLogradouro.setEnabled(false);
+
+        varBairro.setEnabled(false);
 
         lbComplemento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbComplemento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -182,11 +187,18 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbComplemento.setAutoscrolls(true);
         lbComplemento.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varComplemento.setEnabled(false);
+
         try {
             varTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
             ex.printStackTrace();
         }
+        varTel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                varTelFocusLost(evt);
+            }
+        });
 
         lbAstName.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbAstName.setForeground(new java.awt.Color(255, 0, 0));
@@ -196,12 +208,25 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbAstEmail.setForeground(new java.awt.Color(255, 0, 0));
         lbAstEmail.setText("*");
 
-        jToggleButton1.setText("jToggleButton1");
-        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton1ActionPerformed(evt);
-            }
-        });
+        lbAstNum.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstNum.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstNum.setText("*");
+
+        lbAstLograd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstLograd.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstLograd.setText("*");
+
+        lbAstBairro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstBairro.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstBairro.setText("*");
+
+        lbAstUf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstUf.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstUf.setText("*");
+
+        lbAstLocal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbAstLocal.setForeground(new java.awt.Color(255, 0, 0));
+        lbAstLocal.setText("*");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -222,37 +247,45 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                     .addComponent(lbEmail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbTel, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(12, 12, 12)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbAstName))
-                            .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(varNome, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbAstName))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbAstNum))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(varEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbAstEmail))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(varLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbAstLograd))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(varComplemento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
                                     .addComponent(varLocalidade, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lbUf)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(varUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbAstLocal))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(36, 36, 36))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(varEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(varBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbAstBairro)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbAstEmail)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jToggleButton1))))
+                        .addComponent(lbUf)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(varUf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbAstUf)))
+                .addGap(21, 21, 21))
             .addGroup(layout.createSequentialGroup()
                 .addGap(229, 229, 229)
                 .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -271,43 +304,45 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbEmail)
                     .addComponent(varEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbAstEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jToggleButton1))
+                    .addComponent(lbAstEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTel)
                     .addComponent(varTel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbCep))
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbCep))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbNúmero))
+                    .addComponent(lbNúmero)
+                    .addComponent(lbAstNum, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbLogradouro)
-                    .addComponent(varLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(varLogradouro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbAstLograd, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbBairro)
-                    .addComponent(varBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(varBairro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbAstBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbUf)
                     .addComponent(varLocalidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(varUf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbLocalidade))
+                    .addComponent(lbLocalidade)
+                    .addComponent(lbAstUf, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbAstLocal, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbComplemento)
                     .addComponent(varComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pack();
@@ -317,52 +352,157 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         String nome = varNome.getText().trim();
         String email = varEmail.getText().trim();
         String telefone = varTel.getText();
-        
-        
-        if (nome.isEmpty()) {
-            lbAstName.setVisible(true);
-            if (!email.isEmpty()) {
-                lbAstEmail.setVisible(false);
-            }
-        }
-        if (email.isEmpty()) {
-            lbAstEmail.setVisible(true);
-            if (!nome.isEmpty()) {
-                lbAstName.setVisible(false);
-            }
-        }
 
-        controlador.valida_Cliente(varNome.getText().trim(), varEmail.getText().trim(), varTel.getText().trim());
-        if (true) {
+        if (!nome.isEmpty() && !email.isEmpty() && telefone.length() >= 12) {
+            if (controlador.validaCliente(cliente, nome, email, telefone)) {
+                String logradouro = varLogradouro.getText().trim();
+                String numero = varNumero.getText().trim();
+                String bairro = varBairro.getText().trim();
+                String localidade = varLocalidade.getText().trim();
+                String uf = varUf.getText().trim();
 
+                if (controlador.validaEnd(cliente, endereco, logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
+                    try {
+                        session = HibernateUtil.abrirConexao();
+                        clienteDao.saveOrAlter(cliente, session);
+                        JOptionPane.showMessageDialog(null, "Ta salvo meu filho");
+                    } catch (Exception e) {
+                        System.out.println("Erro ao salvar Cliente " + e);
+                    } finally {
+                        session.close();
+                    }
+
+                    JOptionPane.showMessageDialog(null, "Dados salvos!");
+
+                    
+                } else {
+                    // Mostra Asterisco de campos obrigatórios e retira o que estiver preenchido restante abaixo de CEP
+                    if (logradouro.isEmpty()) {
+                        lbAstLograd.setVisible(true);
+                        if (!numero.isEmpty()) {
+                            lbAstNum.setVisible(false);
+                        }
+                        if (!bairro.isEmpty()) {
+                            lbAstBairro.setVisible(false);
+                        }
+                        if (!localidade.isEmpty()) {
+                            lbAstLocal.setVisible(false);
+                        }
+                        if (!uf.isEmpty()) {
+                            lbAstUf.setVisible(false);
+                        }
+                    }
+                    if (numero.isEmpty()) {
+                        lbAstNum.setVisible(true);
+                        if (!logradouro.isEmpty()) {
+                            lbAstLograd.setVisible(false);
+                        }
+                        if (!bairro.isEmpty()) {
+                            lbAstBairro.setVisible(false);
+                        }
+                        if (!localidade.isEmpty()) {
+                            lbAstLocal.setVisible(false);
+                        }
+                        if (!uf.isEmpty()) {
+                            lbAstUf.setVisible(false);
+                        }
+                    }
+                    if (bairro.isEmpty()) {
+                        lbAstBairro.setVisible(true);
+                        if (!localidade.isEmpty()) {
+                            lbAstLocal.setVisible(false);
+                        }
+                        if (!uf.isEmpty()) {
+                            lbAstUf.setVisible(false);
+                        }
+                        if (!numero.isEmpty()) {
+                            lbAstNum.setVisible(false);
+                        }
+                        if (!logradouro.isEmpty()) {
+                            lbAstLograd.setVisible(false);
+                        }
+                    }
+                    if (localidade.isEmpty()) {
+                        lbAstLocal.setVisible(true);
+                        if (!uf.isEmpty()) {
+                            lbAstUf.setVisible(false);
+                        }
+                        if (!numero.isEmpty()) {
+                            lbAstNum.setVisible(false);
+                        }
+                        if (!logradouro.isEmpty()) {
+                            lbAstLograd.setVisible(false);
+                        }
+                        if (!bairro.isEmpty()) {
+                            lbAstBairro.setVisible(false);
+                        }
+
+                    }
+                    if (uf.isEmpty()) {
+                        lbAstUf.setVisible(true);
+                        if (!numero.isEmpty()) {
+                            lbAstNum.setVisible(false);
+                        }
+                        if (!logradouro.isEmpty()) {
+                            lbAstLograd.setVisible(false);
+                        }
+                        if (!bairro.isEmpty()) {
+                            lbAstBairro.setVisible(false);
+                        }
+                        if (!localidade.isEmpty()) {
+                            lbAstLocal.setVisible(false);
+                        }
+                    }
+
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Informe um nome maior que 3 Caracteres");
+            }
         } else {
-            cliente = new Cliente(false, varNome.getText().trim(), varEmail.getText().trim(), varNumero.getText().trim());
-            List<Endereco> enderecos = new ArrayList<>();
-//            endereco = new Endereco(enderecoApi.getLogradouro(), varNumero.getText().trim(), enderecoApi.getBairro(), enderecoApi.getLocalidade(), 
-//                    enderecoApi.getComplemento(), enderecoApi.getUf());
-
-            enderecos.add(endereco);
-            cliente.setEnderecos(enderecos);
-            for (Endereco endereco : enderecos) {
-                endereco.setPessoa(cliente);
+            if (nome.isEmpty()) {
+                lbAstName.setVisible(true);
+                if (!email.isEmpty()) {
+                    lbAstEmail.setVisible(false);
+                }
             }
-            session = HibernateUtil.abrirConexao();
-            clienteDao.saveOrAlter(cliente, session);
-            session.close();
-            System.out.println("ID: " + cliente.getId());
-
-            JOptionPane.showMessageDialog(null, "Ta salvo meu filho");
+            if (email.isEmpty()) {
+                lbAstEmail.setVisible(true);
+                if (!nome.isEmpty()) {
+                    lbAstName.setVisible(false);
+                }
+            }
         }
+
+
     }//GEN-LAST:event_btSalvarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Boolean a = controlador.valida_email(varEmail.getText().trim());
-        System.out.println(a);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void varEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_varEmailFocusLost
-        Boolean a = controlador.valida_email(varEmail.getText().trim());
-        System.out.println(a);
+        String email = varEmail.getText().trim();
+
+        if (email.contains("@") && email.contains(".")) {
+            String emailBd = "";
+            try {
+                session = HibernateUtil.abrirConexao();
+                System.out.println(email);
+                emailBd = clienteDao.askPerEmail(email, session);
+
+            } catch (Exception e) {
+                System.out.println("Erro ao verificar e-mail " + e);
+
+            } finally {
+                session.close();
+            }
+            System.out.println(emailBd);
+            if (emailBd == null) {
+                cliente.setEmail(email);
+            } else {
+
+                JOptionPane.showMessageDialog(null, "Email já cadastrado!");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Digite um e-mail!");
+        }
     }//GEN-LAST:event_varEmailFocusLost
 
     private void varCepFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_varCepFocusLost
@@ -371,21 +511,42 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         if (enderecoApi == null) {
             JOptionPane.showMessageDialog(null, "O Cep informado não existe");
         } else {
+            varNumero.setEnabled(true);
+            varLogradouro.setEnabled(true);
+            varBairro.setEnabled(true);
+            varLocalidade.setEnabled(true);
+            varUf.setEnabled(true);
+            varComplemento.setEnabled(true);
+
+            varLogradouro.setText(enderecoApi.getLogradouro());
+            varBairro.setText(enderecoApi.getBairro());
+            varLocalidade.setText(enderecoApi.getLocalidade());
+            varUf.setText(enderecoApi.getUf());
+            varComplemento.setText(enderecoApi.getComplemento());
             btSalvar.setEnabled(true);
+
         }
     }//GEN-LAST:event_varCepFocusLost
 
-    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton1ActionPerformed
+    private void varTelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_varTelFocusLost
+        String tel = varTel.getText();
+        if (!tel.isEmpty()) {
+            cliente.setTelefone(tel);
+        } else {
+            JOptionPane.showMessageDialog(null, "Informe um Número de Telefone!");
+        }
+    }//GEN-LAST:event_varTelFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSalvar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JLabel lbAstBairro;
     private javax.swing.JLabel lbAstEmail;
+    private javax.swing.JLabel lbAstLocal;
+    private javax.swing.JLabel lbAstLograd;
     private javax.swing.JLabel lbAstName;
+    private javax.swing.JLabel lbAstNum;
+    private javax.swing.JLabel lbAstUf;
     private javax.swing.JLabel lbBairro;
     private javax.swing.JLabel lbCep;
     private javax.swing.JLabel lbComplemento;

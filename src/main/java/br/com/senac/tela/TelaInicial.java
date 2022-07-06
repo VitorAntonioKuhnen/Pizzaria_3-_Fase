@@ -24,7 +24,7 @@ public class TelaInicial extends javax.swing.JFrame {
     }
     
     public TelaInicial(){
-        
+        initComponents();
     }
 
     /**
@@ -53,15 +53,17 @@ public class TelaInicial extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(147, 37, 39));
 
+        jDP.setDesktopManager(null);
+
         javax.swing.GroupLayout jDPLayout = new javax.swing.GroupLayout(jDP);
         jDP.setLayout(jDPLayout);
         jDPLayout.setHorizontalGroup(
             jDPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 845, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jDPLayout.setVerticalGroup(
             jDPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 490, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         lbUser.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
@@ -85,6 +87,8 @@ public class TelaInicial extends javax.swing.JFrame {
             }
         });
 
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Cadastrar Usuario.png")); // NOI18N
         jMenuItem1.setText("Cadastro");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -93,6 +97,8 @@ public class TelaInicial extends javax.swing.JFrame {
         });
         jMenu1.add(jMenuItem1);
 
+        jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Buscar Usuario.png")); // NOI18N
         jMenuItem3.setText("Consultar");
         jMenu1.add(jMenuItem3);
 
@@ -100,9 +106,13 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jMenu2.setText("Pedido");
 
+        jMenuItem4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Cadastrar Pedido.png")); // NOI18N
         jMenuItem4.setText("Cadastrar");
         jMenu2.add(jMenuItem4);
 
+        jMenuItem5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jMenuItem5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Buscar Pedido.png")); // NOI18N
         jMenuItem5.setText("Buscar");
         jMenu2.add(jMenuItem5);
 
@@ -135,7 +145,7 @@ public class TelaInicial extends javax.swing.JFrame {
                         .addComponent(lbUser, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbNameUser, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 407, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 404, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addContainerGap())
                     .addComponent(jDP)))
@@ -144,7 +154,7 @@ public class TelaInicial extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(452, Short.MAX_VALUE))
+                .addContainerGap(456, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
