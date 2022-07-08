@@ -40,7 +40,13 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         enderecoDTO = new EnderecoDTO();
         lbAstEmail.setVisible(false);
         lbAstName.setVisible(false);
+        lbAstUf.setVisible(false);
+        lbAstLocal.setVisible(false);
+        lbAstBairro.setVisible(false);
+        lbAstNum.setVisible(false);
+        lbAstLograd.setVisible(false);
         cliente = new Cliente();
+        
     }
 
     /**
@@ -83,6 +89,8 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbAstLocal = new javax.swing.JLabel();
 
         setClosable(true);
+        setTitle("Cadrastro Cliente");
+        setToolTipText("");
 
         lbTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lbTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

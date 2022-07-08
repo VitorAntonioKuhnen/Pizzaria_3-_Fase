@@ -31,10 +31,17 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
     }
 
     @Override
-    public Cliente askPerTell(String telefone, Session session) throws HibernateException {
-        Query<Cliente> consult = session.createQuery("select distinct (c) from Cliente c join fetch c.pedidos where c.telefone = :telefone");
-        consult.setParameter("telefone", telefone);
-        return consult.getSingleResult();
+    public List<Cliente> askPerTell(String telefone, Session session) throws HibernateException {
+        Query<Cliente> consult = session.createQuery("select distinct (c) from Cliente c join fetch c.pedidos where c.telefone like :telefone");
+        consult.setParameter("telefone", "%" + telefone + "%");
+        return consult.getResultList();
+    }
+    
+    @Override
+    public List<Cliente> askListEmail(String email, Session session) throws HibernateException {
+        Query<Cliente> consult = session.createQuery("from Cliente c where c.email like :email");
+        consult.setParameter("email", "%" + email + "%");
+        return consult.getResultList();
     }
 
     @Override
@@ -43,5 +50,7 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long> implements Client
         consult.setParameter("email", email);
         return consult.uniqueResult();
     }
+
+    
     
 }

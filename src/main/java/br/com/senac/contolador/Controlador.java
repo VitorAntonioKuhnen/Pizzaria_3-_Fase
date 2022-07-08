@@ -23,7 +23,7 @@ public class Controlador {
     private ClienteDao clienteDao = new ClienteDaoImpl();
     private Session session;
 
-    public Boolean validaCliente(Cliente cliente, String nome, String email, String telefone) {
+    public static Boolean validaCliente(Cliente cliente, String nome, String email, String telefone) {
         if (nome.length() > 3) {
             cliente.setNome(nome);
             cliente.setEmail(email);
@@ -35,7 +35,7 @@ public class Controlador {
     }
 
     public static Boolean validaEnd(Cliente cliente, Endereco endereco, String logradouro, String numero, String bairro, String localidade, String uf, String complemento, String cep) {
-        if (!logradouro.isEmpty() || !numero.isEmpty() || !bairro.isEmpty() || !localidade.isEmpty() || !uf.isEmpty()) {
+        if (!logradouro.isEmpty() && !numero.isEmpty() && !bairro.isEmpty() && !localidade.isEmpty() && !uf.isEmpty()) {
             List<Endereco> enderecos = new ArrayList<>();
             endereco = new Endereco(logradouro, numero, bairro, localidade, uf, complemento, cep);
             enderecos.add(endereco);

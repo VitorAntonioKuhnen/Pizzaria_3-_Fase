@@ -91,11 +91,11 @@ public class ClienteDaoImplTest {
         clienteBd();
         
         session = HibernateUtil.abrirConexao();
-        Cliente clienteTel = clienteDao.askPerTell(cliente.getTelefone(), session);
+//        Cliente clienteTel = clienteDao.askPerTell(cliente.getTelefone(), session);
         session.close();
         
-        assertNotNull(clienteTel);
-        assertTrue(!clienteTel.getPedidos().isEmpty());
+//        assertNotNull(clienteTel);
+//        assertTrue(!clienteTel.getPedidos().isEmpty());
         
         System.out.println(cliente.getNome());
     }

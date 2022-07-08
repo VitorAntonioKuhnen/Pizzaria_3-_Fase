@@ -21,6 +21,8 @@ public class TelaInicial extends javax.swing.JFrame {
     public TelaInicial(Usuario usuario) {
         initComponents();
         lbNameUser.setText(usuario.getUser());
+        setExtendedState(MAXIMIZED_BOTH);
+        
     }
     
     public TelaInicial(){
@@ -100,6 +102,11 @@ public class TelaInicial extends javax.swing.JFrame {
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jMenuItem3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Buscar Usuario.png")); // NOI18N
         jMenuItem3.setText("Consultar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuBar1.add(jMenu1);
@@ -194,6 +201,14 @@ public class TelaInicial extends javax.swing.JFrame {
     private void jMenu3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu3MouseClicked
         dispose();
     }//GEN-LAST:event_jMenu3MouseClicked
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        ConsultaCliente consultaCliente = new ConsultaCliente();
+        jDP.add(consultaCliente);
+        consultaCliente.setVisible(true);
+        centralizaForm(consultaCliente);
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void centralizaForm(JInternalFrame frame) {
         Dimension desktopSize = jDP.getSize();
