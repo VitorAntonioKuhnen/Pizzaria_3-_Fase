@@ -22,7 +22,6 @@ public class Login extends javax.swing.JFrame {
      */
     private UsuarioDao usuarioDao;
     private Session session;
-    private Usuario usuario;
 
     public Login() {
         initComponents();
@@ -159,23 +158,31 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogarActionPerformed
+//         try {
+//            new Loading(this).setVisible(true);
+//            Thread.sleep(10000);
+//        } catch (InterruptedException ex) {
+//             System.out.println("Erro ao aguardar" + ex.getMessage());
+//        }
         String usuario = varUser.getText();
         String senha = String.valueOf(varSenha.getPassword());
 
         if (!usuario.isEmpty() && !senha.isEmpty()) {
             lbAstUser.setVisible(false);
             lbAstSenha.setVisible(false);
-
+            
             try {
                 session = HibernateUtil.abrirConexao();
                 Usuario user = usuarioDao.askPerUserAndPassword(usuario, senha, session);
-                session.close();
                 System.out.println("Usuario: " + user.getUser() + "\nSenha: " + user.getSenha() + "\nPermissão: " + user.getPermissao());
+                
                 new TelaInicial(user).setVisible(true);
                 dispose();
             } catch (Exception e) {
                 System.out.println("Erro ao verificar usuario/senha " + e);
                 lbError.setVisible(true);
+            }finally{
+                session.close();
             }
         } else {
             if (usuario.isEmpty()) {
@@ -198,6 +205,7 @@ public class Login extends javax.swing.JFrame {
             senha = "";
 
         }
+        
 
     }//GEN-LAST:event_btLogarActionPerformed
 
@@ -227,6 +235,7 @@ public class Login extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

@@ -26,56 +26,56 @@ public class PedidoDaoImplTest {
     private Pedido pedido;
     private PedidoDao pedidoDao;
 
-    public PedidoDaoImplTest() {
-        pedidoDao = new PedidoDaoImpl();
-    }
-
-    @Test
-    public void testSalvar() {
-        System.out.println("Salvar");
-        ClienteDaoImplTest cdit = new ClienteDaoImplTest();
-
-        Pedido pedido = gerarPedido();
-        pedido.setCliente(buscarClienteBd());
-        session = HibernateUtil.abrirConexao();
-        pedidoDao.saveOrAlter(pedido, session);
-        session.close();
-        
-        assertNotNull(pedido.getId());
-
-    }
-
+//    public PedidoDaoImplTest() {
+//        pedidoDao = new PedidoDaoImpl();
+//    }
+//
 //    @Test
-    public void testPesquisarPorId() {
-        System.out.println("pesquisarPorId");
-        Long id = null;
-        Session session = null;
-        PedidoDaoImpl instance = new PedidoDaoImpl();
-        Pedido expResult = null;
-        Pedido result = instance.pesquisarPorId(id, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-//    @Test
-    public void testAskPerName() {
-        System.out.println("askPerName");
-        String nome = "";
-        Session session = null;
-        PedidoDaoImpl instance = new PedidoDaoImpl();
-        List<Pedido> expResult = null;
-        List<Pedido> result = instance.askPerName(nome, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    public Cliente buscarClienteBd() {
-        session = HibernateUtil.abrirConexao();
-        Query<Cliente> consulta = session.createQuery("from Cliente c");
-        List<Cliente> clientes = consulta.getResultList();
-        session.close();
-        Collections.shuffle(clientes);
-        return clientes.get(0);
-    }
+//    public void testSalvar() {
+//        System.out.println("Salvar");
+//        ClienteDaoImplTest cdit = new ClienteDaoImplTest();
+//
+//        Pedido pedido = gerarPedido();
+//        pedido.setCliente(buscarClienteBd());
+//        session = HibernateUtil.abrirConexao();
+//        pedidoDao.saveOrAlter(pedido, session);
+//        session.close();
+//        
+//        assertNotNull(pedido.getId());
+//
+//    }
+//
+////    @Test
+//    public void testPesquisarPorId() {
+//        System.out.println("pesquisarPorId");
+//        Long id = null;
+//        Session session = null;
+//        PedidoDaoImpl instance = new PedidoDaoImpl();
+//        Pedido expResult = null;
+//        Pedido result = instance.pesquisarPorId(id, session);
+//        assertEquals(expResult, result);
+//        fail("The test case is a prototype.");
+//    }
+//
+////    @Test
+//    public void testAskPerName() {
+//        System.out.println("askPerName");
+//        String nome = "";
+//        Session session = null;
+//        PedidoDaoImpl instance = new PedidoDaoImpl();
+//        List<Pedido> expResult = null;
+//        List<Pedido> result = instance.askPerName(nome, session);
+//        assertEquals(expResult, result);
+//        fail("The test case is a prototype.");
+//    }
+//
+//    public Cliente buscarClienteBd() {
+//        session = HibernateUtil.abrirConexao();
+//        Query<Cliente> consulta = session.createQuery("from Cliente c");
+//        List<Cliente> clientes = consulta.getResultList();
+//        session.close();
+//        Collections.shuffle(clientes);
+//        return clientes.get(0);
+//    }
 
 }

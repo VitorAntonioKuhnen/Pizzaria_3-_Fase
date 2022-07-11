@@ -362,7 +362,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         String telefone = varTel.getText();
 
         if (!nome.isEmpty() && !email.isEmpty() && telefone.length() >= 12) {
-            if (controlador.validaCliente(cliente, nome, email, telefone)) {
+            if (controlador.validaCliente(cliente, null, nome, email, telefone)) {
                 String logradouro = varLogradouro.getText().trim();
                 String numero = varNumero.getText().trim();
                 String bairro = varBairro.getText().trim();
@@ -373,14 +373,24 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                     try {
                         session = HibernateUtil.abrirConexao();
                         clienteDao.saveOrAlter(cliente, session);
-                        JOptionPane.showMessageDialog(null, "Ta salvo meu filho");
+                        JOptionPane.showMessageDialog(null, "Dados salvos!");
+                        varNome.setText("");
+                        varEmail.setText("");
+                        varTel.setText("");
+                        varCep.setText("");
+                        varNumero.setText("");
+                        varBairro.setText("");
+                        varLogradouro.setText("");
+                        varLocalidade.setText("");
+                        varUf.setText("");
+                        varComplemento.setText("");                        
                     } catch (Exception e) {
                         System.out.println("Erro ao salvar Cliente " + e);
                     } finally {
                         session.close();
                     }
 
-                    JOptionPane.showMessageDialog(null, "Dados salvos!");
+                    
 
                     
                 } else {

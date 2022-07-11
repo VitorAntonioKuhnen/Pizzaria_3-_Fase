@@ -19,15 +19,14 @@ import org.hibernate.Session;
  */
 public class Controlador {
 
-    private Cliente cliente;
     private ClienteDao clienteDao = new ClienteDaoImpl();
-    private Session session;
 
-    public static Boolean validaCliente(Cliente cliente, String nome, String email, String telefone) {
+    public static Boolean validaCliente(Cliente cliente,Long id, String nome, String email, String telefone) {
         if (nome.length() > 3) {
             cliente.setNome(nome);
             cliente.setEmail(email);
             cliente.setTelefone(telefone);
+            cliente.setId(id);
             return true;
         } else {
             return false;
@@ -39,10 +38,11 @@ public class Controlador {
             List<Endereco> enderecos = new ArrayList<>();
             endereco = new Endereco(logradouro, numero, bairro, localidade, uf, complemento, cep);
             enderecos.add(endereco);
-            cliente.setEnderecos(enderecos);
             for (Endereco end : enderecos) {
                 end.setPessoa(cliente);
             }
+            endereco.setPessoa(cliente);
+            cliente.setEnderecos(enderecos);
             return true;
         } else {
             return false;

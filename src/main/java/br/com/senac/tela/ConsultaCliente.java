@@ -51,6 +51,8 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         cliente = new Cliente();
         tabAlt.setVisible(false);
         tab.setEnabledAt(1, false);
+        tabelaModelo = (DefaultTableModel) tabelaCliente.getModel();
+
     }
 
     /**
@@ -170,6 +172,11 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         tab.setForeground(new java.awt.Color(255, 255, 255));
         tab.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tab.setOpaque(true);
+        tab.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabMouseClicked(evt);
+            }
+        });
 
         tabelaCliente.setForeground(new java.awt.Color(0, 0, 0));
         tabelaCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -269,7 +276,6 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         btSalvar.setText("Salvar");
         btSalvar.setAutoscrolls(true);
         btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btSalvar.setEnabled(false);
         btSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btSalvarActionPerformed(evt);
@@ -350,6 +356,9 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         lbId.setText("ID:");
         lbId.setAutoscrolls(true);
         lbId.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        varId.setEditable(false);
+        varId.setEnabled(false);
 
         javax.swing.GroupLayout tabAltLayout = new javax.swing.GroupLayout(tabAlt);
         tabAlt.setLayout(tabAltLayout);
@@ -565,6 +574,8 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         varAskNome.setText("");
         varAskEmail.setText("");
         varAskTelefone.setText("");
+        // Limpando a tabelaModelo
+        tabelaModelo.setNumRows(0);
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void varTelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_varTelFocusLost
@@ -577,28 +588,35 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_varTelFocusLost
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        String nome = varAskNome.getText().trim();
-        String email = varAskEmail.getText().trim();
+        // Limpando lista
+        clientes.clear();
+        // Limpando a tabelaModelo
+        tabelaModelo.setNumRows(0);
+        Long id = Long.parseLong(varId.getText());
+        
+        String nome = varNome.getText().trim();
+        String email = varEmail.getText().trim();
         String telefone = varTel.getText();
 
         if (!nome.isEmpty() && !email.isEmpty() && telefone.length() >= 12) {
-            if (controlador.validaCliente(cliente, nome, email, telefone)) {
+            if (controlador.validaCliente(cliente, id, nome, email, telefone)) {
                 String logradouro = varLogradouro.getText().trim();
                 String numero = varNumero.getText().trim();
                 String bairro = varBairro.getText().trim();
                 String localidade = varLocalidade.getText().trim();
                 String uf = varUf.getText().trim();
-
                 if (controlador.validaEnd(cliente, endereco, logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
                     try {
                         session = HibernateUtil.abrirConexao();
                         clienteDao.saveOrAlter(cliente, session);
                         JOptionPane.showMessageDialog(null, "Alteração salva!");
+                        
                     } catch (Exception e) {
                         System.out.println("Erro ao salvar Cliente " + e);
                     } finally {
                         session.close();
                     }
+                    
                     tab.setSelectedIndex(0);
 
                 } else {
@@ -702,7 +720,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btSalvarActionPerformed
 
     private void varEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_varEmailFocusLost
-        String email = varAskEmail.getText().trim();
+        String email = varEmail.getText().trim();
 
         if (email.contains("@") && email.contains(".")) {
             String emailBd = "";
@@ -731,7 +749,6 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_varEmailFocusLost
 
     public void popularTabela(List<Cliente> cliente){
-        tabelaModelo = (DefaultTableModel) tabelaCliente.getModel();
         // Limpando a tabelaModelo
         tabelaModelo.setNumRows(0);
         for (Cliente  client : clientes) {
@@ -841,6 +858,10 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
             tab.setSelectedIndex(1);
         }
     }//GEN-LAST:event_btAlterarActionPerformed
+
+    private void tabMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabMouseClicked
+        tab.setEnabledAt(1, false);
+    }//GEN-LAST:event_tabMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

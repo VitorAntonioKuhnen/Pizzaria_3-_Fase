@@ -34,7 +34,7 @@ public class ClienteDaoImplTest {
         clienteDao = new ClienteDaoImpl();
     }
 
-    @Test
+//    @Test
     public void testSalvar() {
         System.out.println("Salvar");
 
@@ -59,6 +59,23 @@ public class ClienteDaoImplTest {
         session.close();
         assertNotNull(cliente.getId());
 
+    }
+    
+    @Test
+    public void testAlterar(){
+        System.out.println("AlteraCliente");
+        clienteBd();
+        cliente.setNome("viasdasd@gmail.com");
+        session = HibernateUtil.abrirConexao();
+        clienteDao.saveOrAlter(cliente, session);
+        
+        Cliente clienteAlt = clienteDao.pesquisarPorId(cliente.getId(), session);
+        session.close();
+        
+        System.out.println("Alterado " + clienteAlt);
+        System.out.println("Old " + cliente.getId());
+        
+        
     }
 
 //    @Test

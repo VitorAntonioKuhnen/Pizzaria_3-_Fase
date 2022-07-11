@@ -20,28 +20,28 @@ public class FornecedorDaoImplTest {
     public FornecedorDaoImplTest() {
     }
 
-    @Test
-    public void testPesquisarPorId() {
-        System.out.println("pesquisarPorId");
-        Long id = null;
-        Session session = null;
-        FornecedorDaoImpl instance = new FornecedorDaoImpl();
-        Fornecedor expResult = null;
-        Fornecedor result = instance.pesquisarPorId(id, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
-
-    @Test
-    public void testAskPerName() {
-        System.out.println("askPerName");
-        String nome = "";
-        Session session = null;
-        FornecedorDaoImpl instance = new FornecedorDaoImpl();
-        List<Fornecedor> expResult = null;
-        List<Fornecedor> result = instance.askPerName(nome, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
-    }
+//    @Test
+//    public void testPesquisarPorId() {
+//        System.out.println("pesquisarPorId");
+//        Long id = null;
+//        Session session = null;
+//        FornecedorDaoImpl instance = new FornecedorDaoImpl();
+//        Fornecedor expResult = null;
+//        Fornecedor result = instance.pesquisarPorId(id, session);
+//        assertEquals(expResult, result);
+//        fail("The test case is a prototype.");
+//    }
+//
+//    @Test
+//    public void testAskPerName() {
+//        System.out.println("askPerName");
+//        String nome = "";
+//        Session session = null;
+//        FornecedorDaoImpl instance = new FornecedorDaoImpl();
+//        List<Fornecedor> expResult = null;
+//        List<Fornecedor> result = instance.askPerName(nome, session);
+//        assertEquals(expResult, result);
+//        fail("The test case is a prototype.");
+//    }
 
 }
