@@ -111,6 +111,11 @@ public class TelaInicial extends javax.swing.JFrame {
         pedidoCadastrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         pedidoCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/senac/imagens/CadastrarPedido.png"))); // NOI18N
         pedidoCadastrar.setText("Cadastrar");
+        pedidoCadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pedidoCadastrarActionPerformed(evt);
+            }
+        });
         menuPedido.add(pedidoCadastrar);
 
         pedidoBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -198,6 +203,13 @@ public class TelaInicial extends javax.swing.JFrame {
         centralizaForm(consultaCliente);
         
     }//GEN-LAST:event_clienteConsultarActionPerformed
+
+    private void pedidoCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedidoCadastrarActionPerformed
+        CadastroPedido cadastroPedido =  new CadastroPedido();
+        jDP.add(cadastroPedido);
+        cadastroPedido.setVisible(true);
+        centralizaForm(cadastroPedido);
+    }//GEN-LAST:event_pedidoCadastrarActionPerformed
 
     private void centralizaForm(JInternalFrame frame) {
         Dimension desktopSize = jDP.getSize();

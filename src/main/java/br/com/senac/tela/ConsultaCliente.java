@@ -616,8 +616,8 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
                     } finally {
                         session.close();
                     }
-                    
                     tab.setSelectedIndex(0);
+                    tab.setEnabledAt(1, false);
 
                 } else {
                     // Mostra Asterisco de campos obrigatórios e retira o que estiver preenchido restante abaixo de CEP
