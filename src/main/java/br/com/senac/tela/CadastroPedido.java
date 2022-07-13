@@ -5,17 +5,24 @@
  */
 package br.com.senac.tela;
 
-import br.com.cep.modelo.EnderecoDTO;
-import br.com.senac.contolador.Controlador;
 import br.com.senac.dao.ClienteDao;
 import br.com.senac.dao.ClienteDaoImpl;
 import br.com.senac.dao.HibernateUtil;
+import br.com.senac.dao.PedidoDao;
+import br.com.senac.dao.PedidoDaoImpl;
 import br.com.senac.entidade.Cliente;
 import br.com.senac.entidade.Endereco;
+import br.com.senac.entidade.Pedido;
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 /**
  *
@@ -28,19 +35,26 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
      */
     private Session session;
     private ClienteDao clienteDao;
+    private PedidoDao pedidoDao;
     private Cliente cliente;
+    private Pedido pedido;
     private DefaultTableModel tabelaModelo;
+    private DefaultTableModel tabelaModeloEnd;
     private List<Cliente> clientes;
-    
+    Date data;
+    String sabor;
+    String tamanho;
+
     public CadastroPedido() {
         initComponents();
         clienteDao = new ClienteDaoImpl();
+        pedidoDao = new PedidoDaoImpl();
         cliente = new Cliente();
         tabelaModelo = (DefaultTableModel) tabelaCliente.getModel();
+        tabelaModeloEnd = (DefaultTableModel) tabelaEnd.getModel();
         tabPedido.setEnabledAt(1, false);
         tabPedido.setEnabledAt(2, false);
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,7 +75,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         btLimpar = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        btProximo = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jSeparator3 = new javax.swing.JSeparator();
         lbTamanho = new javax.swing.JLabel();
@@ -76,7 +90,6 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         lbMedia = new javax.swing.JLabel();
         lbPequena = new javax.swing.JLabel();
         varNumPedido = new javax.swing.JTextField();
-        varData = new javax.swing.JFormattedTextField();
         varValorTotal = new javax.swing.JTextField();
         panelSabores = new javax.swing.JPanel();
         btPresunto = new javax.swing.JButton();
@@ -102,16 +115,20 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         lbSalgadas = new javax.swing.JLabel();
         lbDoces = new javax.swing.JLabel();
         jSeparator5 = new javax.swing.JSeparator();
-        jButton2 = new javax.swing.JButton();
+        btEscEnd = new javax.swing.JButton();
+        varData = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaEnd = new javax.swing.JTable();
+        btFinalizarPedido = new javax.swing.JButton();
         progressBarEnd = new javax.swing.JProgressBar();
         progressBarCliente = new javax.swing.JProgressBar();
         progressBarTamSab = new javax.swing.JProgressBar();
 
         setClosable(true);
         setTitle("Pedido");
+
+        tabPedido.setForeground(new java.awt.Color(0, 0, 0));
 
         tabelaCliente.setForeground(new java.awt.Color(0, 0, 0));
         tabelaCliente.setModel(new javax.swing.table.DefaultTableModel(
@@ -133,6 +150,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         tabelaCliente.setColumnSelectionAllowed(true);
         tabelaCliente.getTableHeader().setReorderingAllowed(false);
         tabList.setViewportView(tabelaCliente);
+        tabelaCliente.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         lbTelefone.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         lbTelefone.setForeground(new java.awt.Color(0, 0, 0));
@@ -169,12 +187,12 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jButton1.setText("Próximo >>>");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btProximo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btProximo.setForeground(new java.awt.Color(0, 0, 0));
+        btProximo.setText("Próximo >>>");
+        btProximo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btProximoActionPerformed(evt);
             }
         });
 
@@ -187,7 +205,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
             .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btProximo)
                 .addGap(24, 24, 24))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
@@ -210,10 +228,10 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                         .addComponent(varAskTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(lbTelefone)
                         .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(btProximo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -223,9 +241,11 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         tabPedido.addTab("                                   Cliente                                     ", jPanel1);
 
         lbTamanho.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        lbTamanho.setForeground(new java.awt.Color(0, 0, 0));
         lbTamanho.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTamanho.setText("Tamanho");
 
+        btGrande.setForeground(new java.awt.Color(0, 0, 0));
         btGrande.setIcon(new javax.swing.ImageIcon(getClass().getResource("/senac/imagens/Pizza 100x100.png"))); // NOI18N
         btGrande.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,37 +253,56 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
             }
         });
 
+        btMedia.setForeground(new java.awt.Color(0, 0, 0));
         btMedia.setIcon(new javax.swing.ImageIcon(getClass().getResource("/senac/imagens/Pizza 80x80.png"))); // NOI18N
+        btMedia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMediaActionPerformed(evt);
+            }
+        });
 
+        btPequena.setForeground(new java.awt.Color(0, 0, 0));
         btPequena.setIcon(new javax.swing.ImageIcon(getClass().getResource("/senac/imagens/Pizza 60x60.png"))); // NOI18N
+        btPequena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPequenaActionPerformed(evt);
+            }
+        });
 
         lbNumPedido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbNumPedido.setForeground(new java.awt.Color(0, 0, 0));
         lbNumPedido.setText("Nº Pedido:");
 
         lbData.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbData.setForeground(new java.awt.Color(0, 0, 0));
         lbData.setText("Data:");
 
         lbValorTotal.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbValorTotal.setForeground(new java.awt.Color(0, 0, 0));
         lbValorTotal.setText("Valor Total:");
 
         lbGrande.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbGrande.setForeground(new java.awt.Color(0, 0, 0));
         lbGrande.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbGrande.setText("Grande R$ 49,99 ");
 
         lbMedia.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbMedia.setForeground(new java.awt.Color(0, 0, 0));
         lbMedia.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbMedia.setText("Média R$ 29,90");
 
         lbPequena.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbPequena.setForeground(new java.awt.Color(0, 0, 0));
         lbPequena.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbPequena.setText("Pequena R$ 25,90");
 
-        try {
-            varData.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/#### - ##:##:##")));
-        } catch (java.text.ParseException ex) {
-            ex.printStackTrace();
-        }
+        varNumPedido.setEditable(false);
 
+        varValorTotal.setEditable(false);
+
+        panelSabores.setRequestFocusEnabled(false);
+
+        btPresunto.setForeground(new java.awt.Color(0, 0, 0));
         btPresunto.setText("Presunto");
         btPresunto.setPreferredSize(new java.awt.Dimension(129, 22));
         btPresunto.addActionListener(new java.awt.event.ActionListener() {
@@ -272,67 +311,183 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
             }
         });
 
+        btAtum.setForeground(new java.awt.Color(0, 0, 0));
         btAtum.setText("Atum");
         btAtum.setPreferredSize(new java.awt.Dimension(129, 22));
+        btAtum.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAtumActionPerformed(evt);
+            }
+        });
 
+        btRomeuEJulieta.setForeground(new java.awt.Color(0, 0, 0));
         btRomeuEJulieta.setText("Romeu e Julieta");
         btRomeuEJulieta.setPreferredSize(new java.awt.Dimension(129, 22));
+        btRomeuEJulieta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btRomeuEJulietaActionPerformed(evt);
+            }
+        });
 
+        btChantilly.setForeground(new java.awt.Color(0, 0, 0));
         btChantilly.setText("Chantilly");
         btChantilly.setPreferredSize(new java.awt.Dimension(129, 22));
+        btChantilly.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btChantillyActionPerformed(evt);
+            }
+        });
 
+        btMargarita.setForeground(new java.awt.Color(0, 0, 0));
         btMargarita.setText("Margarita");
         btMargarita.setPreferredSize(new java.awt.Dimension(129, 22));
+        btMargarita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMargaritaActionPerformed(evt);
+            }
+        });
 
+        btVegetariana.setForeground(new java.awt.Color(0, 0, 0));
         btVegetariana.setText("Vegetariana");
         btVegetariana.setPreferredSize(new java.awt.Dimension(129, 22));
+        btVegetariana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btVegetarianaActionPerformed(evt);
+            }
+        });
 
+        btConfeti.setForeground(new java.awt.Color(0, 0, 0));
         btConfeti.setText("Confeti");
         btConfeti.setPreferredSize(new java.awt.Dimension(129, 22));
+        btConfeti.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btConfetiActionPerformed(evt);
+            }
+        });
 
+        btMorango.setForeground(new java.awt.Color(0, 0, 0));
         btMorango.setText("Morango");
         btMorango.setPreferredSize(new java.awt.Dimension(129, 22));
+        btMorango.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMorangoActionPerformed(evt);
+            }
+        });
 
+        btLomboCanadense.setForeground(new java.awt.Color(0, 0, 0));
         btLomboCanadense.setText("Lombo Canadense");
+        btLomboCanadense.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btLomboCanadenseActionPerformed(evt);
+            }
+        });
 
+        btFrango.setForeground(new java.awt.Color(0, 0, 0));
         btFrango.setText("Frango");
         btFrango.setPreferredSize(new java.awt.Dimension(129, 22));
+        btFrango.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFrangoActionPerformed(evt);
+            }
+        });
 
+        btBrigadeiro.setForeground(new java.awt.Color(0, 0, 0));
         btBrigadeiro.setText("Brigadeiro");
         btBrigadeiro.setPreferredSize(new java.awt.Dimension(129, 22));
+        btBrigadeiro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBrigadeiroActionPerformed(evt);
+            }
+        });
 
+        btBanana.setForeground(new java.awt.Color(0, 0, 0));
         btBanana.setText("Banana");
         btBanana.setPreferredSize(new java.awt.Dimension(129, 22));
+        btBanana.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBananaActionPerformed(evt);
+            }
+        });
 
+        btCalabresa.setForeground(new java.awt.Color(0, 0, 0));
         btCalabresa.setText("Calabresa");
         btCalabresa.setPreferredSize(new java.awt.Dimension(129, 22));
+        btCalabresa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCalabresaActionPerformed(evt);
+            }
+        });
 
+        btQuatroQueijos.setForeground(new java.awt.Color(0, 0, 0));
         btQuatroQueijos.setText("Quatro Queijos");
         btQuatroQueijos.setPreferredSize(new java.awt.Dimension(129, 22));
+        btQuatroQueijos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btQuatroQueijosActionPerformed(evt);
+            }
+        });
 
+        btChocolate.setForeground(new java.awt.Color(0, 0, 0));
         btChocolate.setText("Chocolate");
         btChocolate.setPreferredSize(new java.awt.Dimension(129, 22));
+        btChocolate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btChocolateActionPerformed(evt);
+            }
+        });
 
+        btPrestigio.setForeground(new java.awt.Color(0, 0, 0));
         btPrestigio.setText("Prestigio");
         btPrestigio.setPreferredSize(new java.awt.Dimension(129, 22));
+        btPrestigio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPrestigioActionPerformed(evt);
+            }
+        });
 
+        btAbacaxi.setForeground(new java.awt.Color(0, 0, 0));
         btAbacaxi.setText("Abacaxi");
         btAbacaxi.setPreferredSize(new java.awt.Dimension(129, 22));
+        btAbacaxi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAbacaxiActionPerformed(evt);
+            }
+        });
 
+        btMussarela.setForeground(new java.awt.Color(0, 0, 0));
         btMussarela.setText("Mussarela");
         btMussarela.setPreferredSize(new java.awt.Dimension(129, 22));
+        btMussarela.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btMussarelaActionPerformed(evt);
+            }
+        });
 
+        btSorvete.setForeground(new java.awt.Color(0, 0, 0));
         btSorvete.setText("Sorvete");
         btSorvete.setPreferredSize(new java.awt.Dimension(129, 22));
+        btSorvete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btSorveteActionPerformed(evt);
+            }
+        });
 
+        btPortuguesa.setForeground(new java.awt.Color(0, 0, 0));
         btPortuguesa.setText("Portuguêsa");
         btPortuguesa.setPreferredSize(new java.awt.Dimension(129, 22));
+        btPortuguesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPortuguesaActionPerformed(evt);
+            }
+        });
 
         lbSalgadas.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbSalgadas.setForeground(new java.awt.Color(0, 0, 0));
         lbSalgadas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbSalgadas.setText("Pizzas Salgadas");
 
         lbDoces.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbDoces.setForeground(new java.awt.Color(0, 0, 0));
         lbDoces.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbDoces.setText("Pizzas Doces");
 
@@ -447,13 +602,16 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton2.setText("Escolher Endereço >>>");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btEscEnd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btEscEnd.setForeground(new java.awt.Color(0, 0, 0));
+        btEscEnd.setText("Escolher Endereço >>>");
+        btEscEnd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btEscEndActionPerformed(evt);
             }
         });
+
+        varData.setEditable(false);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -492,12 +650,12 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(varValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varData, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varNumPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(varNumPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(varData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btEscEnd)
                 .addGap(333, 333, 333))
         );
         jPanel2Layout.setVerticalGroup(
@@ -540,13 +698,14 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                     .addComponent(lbValorTotal)
                     .addComponent(varValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jButton2)
+                .addComponent(btEscEnd)
                 .addContainerGap())
         );
 
         tabPedido.addTab("                                 Pedido                                     ", jPanel2);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaEnd.setForeground(new java.awt.Color(0, 0, 0));
+        tabelaEnd.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -562,19 +721,35 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tabelaEnd);
+
+        btFinalizarPedido.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        btFinalizarPedido.setForeground(new java.awt.Color(0, 0, 0));
+        btFinalizarPedido.setText("Finalizar Pedido");
+        btFinalizarPedido.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btFinalizarPedidoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btFinalizarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 66, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btFinalizarPedido)
+                .addGap(12, 12, 12))
         );
 
         tabPedido.addTab("                                 Endereço                                  ", jPanel3);
@@ -625,55 +800,216 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btLimparActionPerformed
 
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
-       if(varAskTelefone.getText().trim().length() > 11){
+        if (varAskTelefone.getText().trim().length() > 11) {
             try {
                 session = HibernateUtil.abrirConexao();
                 clientes = clienteDao.askPerTell(varAskTelefone.getText().trim(), session);
             } catch (Exception e) {
                 System.out.println("Erro ao pesquisar por Telefone " + e.getMessage());
-            }finally{
+            } finally {
                 session.close();
             }
             popularTabela(clientes);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(null, "Informe um Número de Telefone para Prosseguir");
         }
     }//GEN-LAST:event_btBuscarActionPerformed
 
-    
-    
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+    private void btProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProximoActionPerformed
+        Date dat = new Date();
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         int selecionado = tabelaCliente.getSelectedRow();
-        if (selecionado == -1){
+        if (selecionado == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um cliente para Alterar");
-        }else{
+        } else {
             tabPedido.setEnabledAt(1, true);
             tabPedido.setSelectedIndex(1);
             progressBarCliente.setValue(100);
+            Cliente clienteSelecionado = clientes.get(selecionado);
+            cliente = clienteSelecionado;
+            try {
+                session = HibernateUtil.abrirConexao();
+                Query<Pedido> consulta = session.createQuery("from Pedido p");
+                List<Pedido> ped = consulta.getResultList();
+                int maior = 0;
+                for (int i = 0; i < ped.size(); i++) {
+                    if (ped.get(i).getNumero() >= maior) {
+                        maior = ped.get(i).getNumero();
+                    }
+                }
+                varNumPedido.setText(String.valueOf(maior + 1));
+            } catch (Exception e) {
+                System.out.println("Erro ao pesquisar numero do pedido " + e.getMessage());
+            } finally {
+                session.close();
+            }
+            data = dat;
+            varData.setText(df.format(dat));
+
+            popularTabelaEnd(clienteSelecionado);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btProximoActionPerformed
 
     private void btPresuntoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPresuntoActionPerformed
-        // TODO add your handling code here:
+        sabor = "Presunto";
     }//GEN-LAST:event_btPresuntoActionPerformed
 
+    private void btEscEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEscEndActionPerformed
+        if (!varValorTotal.getText().trim().isEmpty() && !sabor.isEmpty()) {
+
+        }
+        tabPedido.setEnabledAt(2, true);
+        tabPedido.setSelectedIndex(2);
+        progressBarTamSab.setValue(100);
+
+
+    }//GEN-LAST:event_btEscEndActionPerformed
+
+    private void btPequenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPequenaActionPerformed
+        tamanho = "Pequena";
+        varValorTotal.setText("25,90");
+    }//GEN-LAST:event_btPequenaActionPerformed
+
+    private void btMediaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMediaActionPerformed
+        tamanho = "Média";
+        varValorTotal.setText("29,90");
+    }//GEN-LAST:event_btMediaActionPerformed
+
     private void btGrandeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGrandeActionPerformed
-        // TODO add your handling code here:
+        tamanho = "Grande";
+        varValorTotal.setText("49,99");
     }//GEN-LAST:event_btGrandeActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-            tabPedido.setEnabledAt(2, true);
-            tabPedido.setSelectedIndex(2);
-            progressBarTamSab.setValue(100);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btCalabresaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalabresaActionPerformed
+        sabor = "Calabresa";
+    }//GEN-LAST:event_btCalabresaActionPerformed
 
-     public void popularTabela(List<Cliente> cliente){
+    private void btLomboCanadenseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLomboCanadenseActionPerformed
+        sabor = "Lombo Canadense";
+    }//GEN-LAST:event_btLomboCanadenseActionPerformed
+
+    private void btMargaritaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMargaritaActionPerformed
+        sabor = "Margarita";
+    }//GEN-LAST:event_btMargaritaActionPerformed
+
+    private void btPortuguesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPortuguesaActionPerformed
+        sabor = "Portuguêsa";
+    }//GEN-LAST:event_btPortuguesaActionPerformed
+
+    private void btQuatroQueijosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btQuatroQueijosActionPerformed
+        sabor = "Quatro Queijos";
+    }//GEN-LAST:event_btQuatroQueijosActionPerformed
+
+    private void btFrangoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFrangoActionPerformed
+        sabor = "Frango";
+    }//GEN-LAST:event_btFrangoActionPerformed
+
+    private void btAtumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAtumActionPerformed
+        sabor = "Atum";
+    }//GEN-LAST:event_btAtumActionPerformed
+
+    private void btVegetarianaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVegetarianaActionPerformed
+        sabor = "Vegetariana";
+    }//GEN-LAST:event_btVegetarianaActionPerformed
+
+    private void btMussarelaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMussarelaActionPerformed
+        sabor = "Mussarela";
+    }//GEN-LAST:event_btMussarelaActionPerformed
+
+    private void btChocolateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChocolateActionPerformed
+        sabor = "Chocolate";
+    }//GEN-LAST:event_btChocolateActionPerformed
+
+    private void btBrigadeiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBrigadeiroActionPerformed
+        sabor = "Brigadeiro";
+    }//GEN-LAST:event_btBrigadeiroActionPerformed
+
+    private void btRomeuEJulietaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRomeuEJulietaActionPerformed
+        sabor = "Romeu e Julieta";
+    }//GEN-LAST:event_btRomeuEJulietaActionPerformed
+
+    private void btConfetiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfetiActionPerformed
+        sabor = "Confeti";
+    }//GEN-LAST:event_btConfetiActionPerformed
+
+    private void btSorveteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSorveteActionPerformed
+        sabor = "Sorvete";
+    }//GEN-LAST:event_btSorveteActionPerformed
+
+    private void btPrestigioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPrestigioActionPerformed
+        sabor = "Prestigio";
+    }//GEN-LAST:event_btPrestigioActionPerformed
+
+    private void btBananaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBananaActionPerformed
+        sabor = "Banana";
+    }//GEN-LAST:event_btBananaActionPerformed
+
+    private void btChantillyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btChantillyActionPerformed
+        sabor = "Chantilly";
+    }//GEN-LAST:event_btChantillyActionPerformed
+
+    private void btMorangoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btMorangoActionPerformed
+        sabor = "Morango";
+    }//GEN-LAST:event_btMorangoActionPerformed
+
+    private void btAbacaxiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAbacaxiActionPerformed
+        sabor = "Abacaxi";
+    }//GEN-LAST:event_btAbacaxiActionPerformed
+
+    private void btFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarPedidoActionPerformed
+
+        BigDecimal total = new BigDecimal(varValorTotal.getText().replace(",", "."));
+        pedido = new Pedido(Integer.valueOf(varNumPedido.getText()), total, data);
+        pedido.setCliente(cliente);
+        try {
+            session = HibernateUtil.abrirConexao();
+            pedidoDao.saveOrAlter(pedido, session);
+            progressBarEnd.setValue(100);
+            JOptionPane.showMessageDialog(null, "Pedido Gravado!");
+        } catch (Exception e) {
+            System.out.println("Erro ao Salvar Pedido " + e.getMessage());
+        } finally {
+            session.close();
+        }
+        
+        tabelaModelo.setNumRows(0);
+        tabPedido.setSelectedIndex(0);
+        tabPedido.setEnabledAt(2, false);
+        tabPedido.setEnabledAt(1, false);
+        progressBarTamSab.setValue(0);
+        progressBarCliente.setValue(0);
+        progressBarEnd.setValue(0);
+        varAskTelefone.setText("");
+        varData.setText("");
+        varNumPedido.setText("");
+        varValorTotal.setText("");
+        data = null;
+        sabor = "";
+        tamanho = "";
+    }//GEN-LAST:event_btFinalizarPedidoActionPerformed
+
+    public void popularTabela(List<Cliente> cliente) {
         // Limpando a tabelaModelo
         tabelaModelo.setNumRows(0);
-        for (Cliente  client : clientes) {
+        for (Cliente client : clientes) {
             tabelaModelo.addRow(new Object[]{client.getId(), client.getNome(), client.getTelefone(), client.getEmail()});
-            
+
         }
+    }
+
+    // Popular a tabela de endereços com o usuario selecionado possui
+    public void popularTabelaEnd(Cliente cliente) {
+        // Limpando a tabelaModelo
+        tabelaModeloEnd.setNumRows(0);
+        if (!cliente.getEnderecos().isEmpty()) {
+            for (Endereco end : cliente.getEnderecos()) {
+                tabelaModeloEnd.addRow(new Object[]{end.getLogradouro(), end.getNumero(), end.getBairro(), end.getCidade(), end.getEstado(), end.getCep(), end.getComplemento()});
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Cliente não possui Endereço");
+        }
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -686,6 +1022,8 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JButton btChantilly;
     private javax.swing.JButton btChocolate;
     private javax.swing.JButton btConfeti;
+    private javax.swing.JButton btEscEnd;
+    private javax.swing.JButton btFinalizarPedido;
     private javax.swing.JButton btFrango;
     private javax.swing.JButton btGrande;
     private javax.swing.JButton btLimpar;
@@ -698,12 +1036,11 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JButton btPortuguesa;
     private javax.swing.JButton btPrestigio;
     private javax.swing.JButton btPresunto;
+    private javax.swing.JButton btProximo;
     private javax.swing.JButton btQuatroQueijos;
     private javax.swing.JButton btRomeuEJulieta;
     private javax.swing.JButton btSorvete;
     private javax.swing.JButton btVegetariana;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -713,7 +1050,6 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbData;
     private javax.swing.JLabel lbDoces;
     private javax.swing.JLabel lbGrande;
@@ -731,8 +1067,9 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane tabList;
     private javax.swing.JTabbedPane tabPedido;
     private javax.swing.JTable tabelaCliente;
+    private javax.swing.JTable tabelaEnd;
     private javax.swing.JFormattedTextField varAskTelefone;
-    private javax.swing.JFormattedTextField varData;
+    private javax.swing.JTextField varData;
     private javax.swing.JTextField varNumPedido;
     private javax.swing.JTextField varValorTotal;
     // End of variables declaration//GEN-END:variables

@@ -369,7 +369,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                 String localidade = varLocalidade.getText().trim();
                 String uf = varUf.getText().trim();
 
-                if (controlador.validaEnd(cliente, endereco, logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
+                if (controlador.validaEnd(cliente, endereco, null, logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
                     try {
                         session = HibernateUtil.abrirConexao();
                         clienteDao.saveOrAlter(cliente, session);

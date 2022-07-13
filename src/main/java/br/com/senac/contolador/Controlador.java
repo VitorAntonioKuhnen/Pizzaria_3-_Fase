@@ -33,10 +33,11 @@ public class Controlador {
         }
     }
 
-    public static Boolean validaEnd(Cliente cliente, Endereco endereco, String logradouro, String numero, String bairro, String localidade, String uf, String complemento, String cep) {
+    public static Boolean validaEnd(Cliente cliente, Endereco endereco, Long id, String logradouro, String numero, String bairro, String localidade, String uf, String complemento, String cep) {
         if (!logradouro.isEmpty() && !numero.isEmpty() && !bairro.isEmpty() && !localidade.isEmpty() && !uf.isEmpty()) {
             List<Endereco> enderecos = new ArrayList<>();
             endereco = new Endereco(logradouro, numero, bairro, localidade, uf, complemento, cep);
+            endereco.setId(id);
             enderecos.add(endereco);
             for (Endereco end : enderecos) {
                 end.setPessoa(cliente);

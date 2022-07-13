@@ -134,8 +134,9 @@ public class GeradorUtil {
 //    }
 
     public static Pedido gerarPedido() {
-        Date data = new Date();        
-        Pedido pedido = new Pedido(0, BigDecimal.ZERO, data);
+        Date data = new Date();  
+        BigDecimal total = new BigDecimal("87.10");
+        Pedido pedido = new Pedido(0, total, data);
 
         return pedido;
     }

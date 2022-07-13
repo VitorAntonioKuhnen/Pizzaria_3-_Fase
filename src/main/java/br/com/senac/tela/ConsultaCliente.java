@@ -588,8 +588,6 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_varTelFocusLost
 
     private void btSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalvarActionPerformed
-        // Limpando lista
-        clientes.clear();
         // Limpando a tabelaModelo
         tabelaModelo.setNumRows(0);
         Long id = Long.parseLong(varId.getText());
@@ -605,7 +603,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
                 String bairro = varBairro.getText().trim();
                 String localidade = varLocalidade.getText().trim();
                 String uf = varUf.getText().trim();
-                if (controlador.validaEnd(cliente, endereco, logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
+                if (controlador.validaEnd(cliente, endereco, endereco.getId(), logradouro, numero, bairro, localidade, uf, varComplemento.getText().trim(), varCep.getText().trim())) {
                     try {
                         session = HibernateUtil.abrirConexao();
                         clienteDao.saveOrAlter(cliente, session);
@@ -616,8 +614,10 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
                     } finally {
                         session.close();
                     }
+                    clientes.clear();
                     tab.setSelectedIndex(0);
                     tab.setEnabledAt(1, false);
+                    
 
                 } else {
                     // Mostra Asterisco de campos obrigatórios e retira o que estiver preenchido restante abaixo de CEP
@@ -844,6 +844,10 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         }else{
             tab.setEnabledAt(1, true);
             Cliente clienteSelecionado = clientes.get(selecionado);
+            //cliente.setEnderecos(clienteSelecionado.getEnderecos());
+            endereco = new Endereco();
+            endereco.setId(clienteSelecionado.getEnderecos().get(0).getId());
+            
             varId.setText(String.valueOf(new Long(clienteSelecionado.getId())));
             varNome.setText(clienteSelecionado.getNome());
             varEmail.setText(clienteSelecionado.getEmail());
