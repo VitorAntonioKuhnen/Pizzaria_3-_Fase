@@ -106,12 +106,14 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         lbLogradouro = new javax.swing.JLabel();
         lbId = new javax.swing.JLabel();
         varId = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         btAlterar = new javax.swing.JButton();
         btExcluir = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
 
         setClosable(true);
+        setIconifiable(true);
         setTitle("Consulta Cliente");
 
         lbAskNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -140,7 +142,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         }
 
         btBuscar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btBuscar.setForeground(new java.awt.Color(0, 0, 0));
         btBuscar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\pesquisa-de-lupa.png")); // NOI18N
         btBuscar.setText("Buscar");
         btBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -160,7 +162,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         varAskEmail.setForeground(new java.awt.Color(0, 0, 0));
 
         btLimpar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        btLimpar.setForeground(new java.awt.Color(255, 255, 255));
+        btLimpar.setForeground(new java.awt.Color(0, 0, 0));
         btLimpar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\limpar-limpo.png")); // NOI18N
         btLimpar.setText("Limpar");
         btLimpar.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +171,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        tab.setForeground(new java.awt.Color(255, 255, 255));
+        tab.setForeground(new java.awt.Color(0, 0, 0));
         tab.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tab.setOpaque(true);
         tab.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -272,7 +274,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         lbAstNum.setText("*");
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
-        btSalvar.setForeground(new java.awt.Color(255, 255, 255));
+        btSalvar.setForeground(new java.awt.Color(0, 0, 0));
         btSalvar.setText("Salvar");
         btSalvar.setAutoscrolls(true);
         btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -360,6 +362,10 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         varId.setEditable(false);
         varId.setEnabled(false);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel2.setText("Preencha o CEP e de Tab!!");
+
         javax.swing.GroupLayout tabAltLayout = new javax.swing.GroupLayout(tabAlt);
         tabAlt.setLayout(tabAltLayout);
         tabAltLayout.setHorizontalGroup(
@@ -389,9 +395,12 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
                         .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbAstNum))
-                    .addGroup(tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(tabAltLayout.createSequentialGroup()
+                        .addGroup(tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
                     .addGroup(tabAltLayout.createSequentialGroup()
                         .addComponent(varEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -428,7 +437,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         tabAltLayout.setVerticalGroup(
             tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabAltLayout.createSequentialGroup()
-                .addContainerGap(42, Short.MAX_VALUE)
+                .addContainerGap(41, Short.MAX_VALUE)
                 .addGroup(tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbId))
@@ -449,7 +458,8 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbCep))
+                    .addComponent(lbCep)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(tabAltLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -485,7 +495,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         tab.addTab("Alterar", tabAlt);
 
         btAlterar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btAlterar.setForeground(new java.awt.Color(255, 255, 255));
+        btAlterar.setForeground(new java.awt.Color(0, 0, 0));
         btAlterar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Alterar.png")); // NOI18N
         btAlterar.setText("Alterar");
         btAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -495,7 +505,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         });
 
         btExcluir.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btExcluir.setForeground(new java.awt.Color(255, 255, 255));
+        btExcluir.setForeground(new java.awt.Color(0, 0, 0));
         btExcluir.setIcon(new javax.swing.ImageIcon("C:\\Users\\Vítor\\Downloads\\Excluir Usuario.png")); // NOI18N
         btExcluir.setText("Excluir");
         btExcluir.addActionListener(new java.awt.event.ActionListener() {
@@ -844,7 +854,6 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
         }else{
             tab.setEnabledAt(1, true);
             Cliente clienteSelecionado = clientes.get(selecionado);
-            //cliente.setEnderecos(clienteSelecionado.getEnderecos());
             endereco = new Endereco();
             endereco.setId(clienteSelecionado.getEnderecos().get(0).getId());
             
@@ -874,6 +883,7 @@ public class ConsultaCliente extends javax.swing.JInternalFrame {
     private javax.swing.JButton btExcluir;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton btSalvar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JLabel lbAskNome;

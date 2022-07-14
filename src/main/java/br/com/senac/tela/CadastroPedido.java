@@ -14,9 +14,9 @@ import br.com.senac.entidade.Cliente;
 import br.com.senac.entidade.Endereco;
 import br.com.senac.entidade.Pedido;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -42,6 +42,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private DefaultTableModel tabelaModeloEnd;
     private List<Cliente> clientes;
     Date data;
+    Time time;
     String sabor;
     String tamanho;
 
@@ -117,6 +118,8 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         jSeparator5 = new javax.swing.JSeparator();
         btEscEnd = new javax.swing.JButton();
         varData = new javax.swing.JTextField();
+        lbCupom = new javax.swing.JLabel();
+        varCupom = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaEnd = new javax.swing.JTable();
@@ -126,6 +129,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         progressBarTamSab = new javax.swing.JProgressBar();
 
         setClosable(true);
+        setIconifiable(true);
         setTitle("Pedido");
 
         tabPedido.setForeground(new java.awt.Color(0, 0, 0));
@@ -613,6 +617,10 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
 
         varData.setEditable(false);
 
+        lbCupom.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbCupom.setForeground(new java.awt.Color(0, 0, 0));
+        lbCupom.setText("Cupom:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -646,17 +654,19 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lbNumPedido)
                             .addComponent(lbData)
-                            .addComponent(lbValorTotal))
+                            .addComponent(lbValorTotal)
+                            .addComponent(lbCupom))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(varValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(varNumPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(varData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(varData, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(varCupom, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(varValorTotal, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(300, 300, 300)
+                        .addComponent(btEscEnd)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btEscEnd)
-                .addGap(333, 333, 333))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -697,9 +707,13 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbValorTotal)
                     .addComponent(varValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbCupom)
+                    .addComponent(varCupom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                 .addComponent(btEscEnd)
-                .addContainerGap())
+                .addGap(36, 36, 36))
         );
 
         tabPedido.addTab("                                 Pedido                                     ", jPanel2);
@@ -818,7 +832,8 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
 
     private void btProximoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btProximoActionPerformed
         Date dat = new Date();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat formData = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat formHora = new SimpleDateFormat("HH:mm:ss");
         int selecionado = tabelaCliente.getSelectedRow();
         if (selecionado == -1) {
             JOptionPane.showMessageDialog(null, "Selecione um cliente para Alterar");
@@ -834,6 +849,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                 List<Pedido> ped = consulta.getResultList();
                 int maior = 0;
                 for (int i = 0; i < ped.size(); i++) {
+                    System.out.println("Numero " + ped.get(i).getNumero());
                     if (ped.get(i).getNumero() >= maior) {
                         maior = ped.get(i).getNumero();
                     }
@@ -845,7 +861,8 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
                 session.close();
             }
             data = dat;
-            varData.setText(df.format(dat));
+            time = Time.valueOf(formHora.format(dat));
+            varData.setText(formData.format(dat) + "-" + formHora.format(dat));
 
             popularTabelaEnd(clienteSelecionado);
         }
@@ -857,11 +874,14 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
 
     private void btEscEndActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEscEndActionPerformed
         if (!varValorTotal.getText().trim().isEmpty() && !sabor.isEmpty()) {
-
+            tabPedido.setEnabledAt(2, true);
+            tabPedido.setSelectedIndex(2);
+            progressBarTamSab.setValue(100);
+        }else if (sabor.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Escolha um Sabor!!");
+        }else if (varValorTotal.getText().trim().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Escolha um Tamanho!!");
         }
-        tabPedido.setEnabledAt(2, true);
-        tabPedido.setSelectedIndex(2);
-        progressBarTamSab.setValue(100);
 
 
     }//GEN-LAST:event_btEscEndActionPerformed
@@ -960,7 +980,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private void btFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFinalizarPedidoActionPerformed
 
         BigDecimal total = new BigDecimal(varValorTotal.getText().replace(",", "."));
-        pedido = new Pedido(Integer.valueOf(varNumPedido.getText()), total, data);
+        pedido = new Pedido(Integer.valueOf(varNumPedido.getText()), sabor + " " + tamanho, total, data, time, varCupom.getText());
         pedido.setCliente(cliente);
         try {
             session = HibernateUtil.abrirConexao();
@@ -972,7 +992,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
         } finally {
             session.close();
         }
-        
+
         tabelaModelo.setNumRows(0);
         tabPedido.setSelectedIndex(0);
         tabPedido.setEnabledAt(2, false);
@@ -1050,6 +1070,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JLabel lbCupom;
     private javax.swing.JLabel lbData;
     private javax.swing.JLabel lbDoces;
     private javax.swing.JLabel lbGrande;
@@ -1069,6 +1090,7 @@ public class CadastroPedido extends javax.swing.JInternalFrame {
     private javax.swing.JTable tabelaCliente;
     private javax.swing.JTable tabelaEnd;
     private javax.swing.JFormattedTextField varAskTelefone;
+    private javax.swing.JTextField varCupom;
     private javax.swing.JTextField varData;
     private javax.swing.JTextField varNumPedido;
     private javax.swing.JTextField varValorTotal;

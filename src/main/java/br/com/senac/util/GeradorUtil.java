@@ -8,6 +8,8 @@ package br.com.senac.util;
 import br.com.senac.entidade.Endereco;
 import br.com.senac.entidade.Pedido;
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
@@ -128,15 +130,17 @@ public class GeradorUtil {
 
     }
 
-//    public static Endereco gerarEndereco() {
-//        Endereco end = new Endereco("Rua Eliane Gerlach", gerarBairro(), gerarNumero(2), gerarCidade(), "Casa", gerarCep());
-//        return end;
-//    }
+    public static Endereco gerarEndereco() {
+        Endereco end = new Endereco("Rua Eliane Gerlach", gerarNumero(2), gerarBairro(), gerarCidade(), gerarEstado(), "Casa", gerarCep());
+        
+        return end;
+    }
 
     public static Pedido gerarPedido() {
-        Date data = new Date();  
+        Date data = new Date();
+        DateFormat formHora = new SimpleDateFormat("HH:mm:ss");
         BigDecimal total = new BigDecimal("87.10");
-        Pedido pedido = new Pedido(0, total, data);
+        Pedido pedido = new Pedido(0, "Grande - Catupiry", total, data, Time.valueOf(formHora.format(data)), "cupom");
 
         return pedido;
     }

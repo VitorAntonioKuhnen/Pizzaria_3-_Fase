@@ -23,9 +23,6 @@ import org.hibernate.annotations.ManyToAny;
 @PrimaryKeyJoinColumn(name = "id_pessoa")
 public class Cliente extends Pessoa{
     
-    
-    private boolean cupom;
-    
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos;
     
@@ -34,15 +31,6 @@ public class Cliente extends Pessoa{
 
     public Cliente(boolean cupom, String nome, String email, String telefone) {
         super(nome, email, telefone);
-        this.cupom = cupom;
-    }
-
-    public boolean isCupom() {
-        return cupom;
-    }
-
-    public void setCupom(boolean cupom) {
-        this.cupom = cupom;
     }
 
     public List<Pedido> getPedidos() {

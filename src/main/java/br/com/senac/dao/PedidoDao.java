@@ -6,6 +6,7 @@
 package br.com.senac.dao;
 
 import br.com.senac.entidade.Pedido;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,6 +16,9 @@ import org.hibernate.Session;
  * @author vitor.kuhnen
  */
 public interface PedidoDao extends BaseDao<Pedido, Long>{
-    List<Pedido> askPerName (String nome, Session session) throws HibernateException;
+    
+    List<Pedido> askPerDate (Date dataIni, Date dataFim, Session session) throws HibernateException;
+    
+    
     
 }

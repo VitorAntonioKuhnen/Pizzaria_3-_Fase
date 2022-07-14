@@ -13,6 +13,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.junit.Test;
@@ -40,7 +41,7 @@ public class ClienteDaoImplTest {
 
         cliente = new Cliente(false, "Vítor", "vitor@gmail.com", "898778988");
         List<Endereco> enderecos = new ArrayList<>();
-//        enderecos.add(gerarEndereco());
+        enderecos.add(gerarEndereco());
         cliente.setEnderecos(enderecos);
 
         for (Endereco endereco : enderecos) {
@@ -61,11 +62,12 @@ public class ClienteDaoImplTest {
 
     }
     
-    @Test
+//    @Test
     public void testAlterar(){
         System.out.println("AlteraCliente");
         clienteBd();
-        cliente.setNome("viasdasd@gmail.com");
+        cliente.setNome("viasdemais");
+        cliente.setEmail("viasdasd@gmail.com");
         session = HibernateUtil.abrirConexao();
         clienteDao.saveOrAlter(cliente, session);
         
@@ -77,29 +79,61 @@ public class ClienteDaoImplTest {
         
         
     }
+//    @Test
+    public void testExcluir(){
+        System.out.println("Excluir");
+        clienteBd();
+        session = HibernateUtil.abrirConexao();
+        clienteDao.excluir(cliente, session);
+        
+        Cliente cliExc = clienteDao.pesquisarPorId(cliente.getId(), session);
+        session.close();
+        
+        assertNull(cliExc.getId());
+    }
 
 //    @Test
     public void testPesquisarPorId() {
         System.out.println("pesquisarPorId");
-        Long id = null;
-        Session session = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        Cliente expResult = null;
-        Cliente result = instance.pesquisarPorId(id, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        clienteBd();
+        session = HibernateUtil.abrirConexao();
+        Cliente pesqCli = clienteDao.pesquisarPorId(cliente.getId(), session);
+        session.close();
+        
+        assertTrue(pesqCli.getNome().isEmpty());
     }
 
 //    @Test
     public void testAskPerName() {
         System.out.println("askPerName");
-        String nome = "";
-        Session session = null;
-        ClienteDaoImpl instance = new ClienteDaoImpl();
-        List<Cliente> expResult = null;
-        List<Cliente> result = instance.askPerName(nome, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        clienteBd();
+        session = HibernateUtil.abrirConexao();
+
+        List<Cliente> clientes = clienteDao.askPerName(cliente.getNome(), session);
+        session.close();
+        assertTrue(!clientes.isEmpty());
+    }
+    
+//    @Test
+    public void testAskPerListEmail() {
+        System.out.println("askPerListEmail");
+        clienteBd();
+        session = HibernateUtil.abrirConexao();
+
+        List<Cliente> clientes = clienteDao.askListEmail(cliente.getNome(), session);
+        session.close();
+        assertTrue(!clientes.isEmpty());
+    }
+    
+//    @Test
+    public void testAskPerNamePed() {
+        System.out.println("askPerNamePed");
+        clienteBd();
+        session = HibernateUtil.abrirConexao();
+
+        List<Cliente> clientes = clienteDao.askPerNamePed(cliente.getNome(), session);
+        session.close();
+        assertTrue(!clientes.isEmpty());
     }
     
 //    @Test
@@ -108,13 +142,10 @@ public class ClienteDaoImplTest {
         clienteBd();
         
         session = HibernateUtil.abrirConexao();
-//        Cliente clienteTel = clienteDao.askPerTell(cliente.getTelefone(), session);
+        List<Cliente> clienteTel = clienteDao.askPerTell(cliente.getTelefone(), session);
         session.close();
         
-//        assertNotNull(clienteTel);
-//        assertTrue(!clienteTel.getPedidos().isEmpty());
-        
-        System.out.println(cliente.getNome());
+        assertNotNull(clienteTel);
     }
     
     

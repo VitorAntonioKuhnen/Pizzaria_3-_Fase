@@ -68,10 +68,12 @@ public class TelaInicial extends javax.swing.JFrame {
         );
 
         lbUser.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lbUser.setForeground(new java.awt.Color(0, 0, 0));
         lbUser.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbUser.setText("Usuário:");
 
         btTrocaUser.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btTrocaUser.setForeground(new java.awt.Color(0, 0, 0));
         btTrocaUser.setText("Trocar Usuario");
         btTrocaUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -80,7 +82,10 @@ public class TelaInicial extends javax.swing.JFrame {
         });
 
         lbNameUser.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        lbNameUser.setForeground(new java.awt.Color(0, 0, 0));
         lbNameUser.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        menuBar.setForeground(new java.awt.Color(0, 0, 0));
 
         menuCliente.setText("Cliente");
 
@@ -121,6 +126,11 @@ public class TelaInicial extends javax.swing.JFrame {
         pedidoBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         pedidoBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/senac/imagens/BuscarPedido.png"))); // NOI18N
         pedidoBuscar.setText("Buscar");
+        pedidoBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pedidoBuscarActionPerformed(evt);
+            }
+        });
         menuPedido.add(pedidoBuscar);
 
         menuBar.add(menuPedido);
@@ -210,6 +220,13 @@ public class TelaInicial extends javax.swing.JFrame {
         cadastroPedido.setVisible(true);
         centralizaForm(cadastroPedido);
     }//GEN-LAST:event_pedidoCadastrarActionPerformed
+
+    private void pedidoBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pedidoBuscarActionPerformed
+        ConsultaPedido consultaPedido = new ConsultaPedido();
+        jDP.add(consultaPedido);
+        consultaPedido.setVisible(true);
+        centralizaForm(consultaPedido);
+    }//GEN-LAST:event_pedidoBuscarActionPerformed
 
     private void centralizaForm(JInternalFrame frame) {
         Dimension desktopSize = jDP.getSize();

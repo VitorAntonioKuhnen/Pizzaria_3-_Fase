@@ -58,6 +58,7 @@ public class Login extends javax.swing.JFrame {
         setResizable(false);
 
         titulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        titulo.setForeground(new java.awt.Color(0, 0, 0));
         titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titulo.setText("Login");
 
@@ -73,12 +74,15 @@ public class Login extends javax.swing.JFrame {
         );
 
         lbUser.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lbUser.setForeground(new java.awt.Color(0, 0, 0));
         lbUser.setText("Usuário:");
 
         lbSenha.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        lbSenha.setForeground(new java.awt.Color(0, 0, 0));
         lbSenha.setText("Senha:");
 
         btLogar.setFont(new java.awt.Font("Bookman Old Style", 1, 18)); // NOI18N
+        btLogar.setForeground(new java.awt.Color(0, 0, 0));
         btLogar.setText("Logar");
         btLogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -158,12 +162,6 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btLogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLogarActionPerformed
-//         try {
-//            new Loading(this).setVisible(true);
-//            Thread.sleep(10000);
-//        } catch (InterruptedException ex) {
-//             System.out.println("Erro ao aguardar" + ex.getMessage());
-//        }
         String usuario = varUser.getText();
         String senha = String.valueOf(varSenha.getPassword());
 

@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 import static br.com.senac.util.GeradorUtil.*;
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import org.hibernate.query.Query;
 
 /**
@@ -44,29 +45,59 @@ public class PedidoDaoImplTest {
         assertNotNull(pedido.getId());
 
     }
+    
+    @Test
+    public void testAlterar(){
+        System.out.println("Alterar");
+        buscarPedidoBd();
+        
+        pedido.setCupom("Vitor");
+        session = HibernateUtil.abrirConexao();
+        pedidoDao.saveOrAlter(pedido, session);
+        
+        Pedido pedidoAlt = pedidoDao.pesquisarPorId(pedido.getId(), session);
+        session.close();
+        
+        assertTrue(pedido.getCupom().equals(pedidoAlt.getCupom()));
+    }
+    
+    @Test
+    public void testExcluir(){
+        System.out.println("Excluir");
+        buscarPedidoBd();
+        session = HibernateUtil.abrirConexao();
+        pedidoDao.excluir(pedido, session);
+        
+        Pedido pedExc = pedidoDao.pesquisarPorId(pedido.getId(), session);
+        
+        session.close();
+        
+        assertNull(pedExc);
+    }
+    
+    
 
 //    @Test
     public void testPesquisarPorId() {
         System.out.println("pesquisarPorId");
-        Long id = null;
-        Session session = null;
-        PedidoDaoImpl instance = new PedidoDaoImpl();
-        Pedido expResult = null;
-        Pedido result = instance.pesquisarPorId(id, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        buscarPedidoBd();
+        session = HibernateUtil.abrirConexao();
+        Pedido pedId = pedidoDao.pesquisarPorId(pedido.getId(), session);
+        session.close();
+        
+        assertTrue(pedId.getInf_pedidos().isEmpty());
     }
 
 //    @Test
-    public void testAskPerName() {
+    public void testAskPerDate() {
         System.out.println("askPerName");
-        String nome = "";
-        Session session = null;
-        PedidoDaoImpl instance = new PedidoDaoImpl();
-        List<Pedido> expResult = null;
-        List<Pedido> result = instance.askPerName(nome, session);
-        assertEquals(expResult, result);
-        fail("The test case is a prototype.");
+        buscarPedidoBd();
+        Date dt = new Date();
+        
+        session = HibernateUtil.abrirConexao();
+        List<Pedido> pedName = pedidoDao.askPerDate(dt, dt, session);
+        session.close();
+        assertTrue(pedName.isEmpty());
     }
 
     public Cliente buscarClienteBd() {
@@ -76,6 +107,15 @@ public class PedidoDaoImplTest {
         session.close();
         Collections.shuffle(clientes);
         return clientes.get(0);
+    }
+    
+    public Pedido buscarPedidoBd(){
+        session = HibernateUtil.abrirConexao();
+        Query<Pedido> consulta = session.createQuery("from Pedido p");
+        List<Pedido> pedidos = consulta.getResultList();
+        session.close();
+        Collections.shuffle(pedidos);
+        return pedidos.get(0);
     }
 
 }

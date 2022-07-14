@@ -17,7 +17,11 @@ import org.hibernate.Session;
 public interface ClienteDao extends BaseDao<Cliente, Long>{
     List<Cliente> askPerName(String nome, Session session) throws HibernateException;
     
+    List<Cliente> askPerNamePed(String nome, Session session) throws HibernateException;
+    
     List<Cliente> askPerTell(String telefone, Session session) throws HibernateException;
+    
+    List<Cliente> askPerTellPed(String telefone, Session session) throws HibernateException;
     
     List<Cliente> askListEmail(String email, Session session) throws HibernateException;
     

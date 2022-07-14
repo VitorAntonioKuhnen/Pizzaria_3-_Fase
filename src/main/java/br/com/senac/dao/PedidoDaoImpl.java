@@ -7,6 +7,7 @@ package br.com.senac.dao;
 
 import br.com.senac.entidade.Pedido;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -24,9 +25,10 @@ public class PedidoDaoImpl extends BaseDaoImpl<Pedido, Long> implements PedidoDa
     }
 
     @Override
-    public List<Pedido> askPerName(String nome, Session session) throws HibernateException {
-        Query<Pedido> consult = session.createQuery("from Pedido p where p.nome like :nome");
-        consult.setParameter("nome", "%" + nome + "%");
+    public List<Pedido> askPerDate(Date dataIni, Date dataFim, Session session) throws HibernateException {
+        Query<Pedido> consult = session.createQuery("from Pedido p join fetch p.cliente where p.dt_pedido between :dataIni and :dataFim");
+        consult.setParameter("dataIni", dataIni);
+        consult.setParameter("dataFim", dataFim);
         return consult.getResultList();
     }
     

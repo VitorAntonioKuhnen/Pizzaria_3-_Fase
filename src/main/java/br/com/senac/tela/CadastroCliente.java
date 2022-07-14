@@ -87,24 +87,30 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbAstBairro = new javax.swing.JLabel();
         lbAstUf = new javax.swing.JLabel();
         lbAstLocal = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setClosable(true);
+        setIconifiable(true);
         setTitle("Cadrastro Cliente");
         setToolTipText("");
 
         lbTitulo.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lbTitulo.setForeground(new java.awt.Color(0, 0, 0));
         lbTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTitulo.setText("Cadastro Cliente");
 
         lbNome.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbNome.setForeground(new java.awt.Color(0, 0, 0));
         lbNome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbNome.setText("Nome:");
         lbNome.setAutoscrolls(true);
         lbNome.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varNome.setForeground(new java.awt.Color(0, 0, 0));
         varNome.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         btSalvar.setFont(new java.awt.Font("Tahoma", 3, 12)); // NOI18N
+        btSalvar.setForeground(new java.awt.Color(0, 0, 0));
         btSalvar.setText("Salvar");
         btSalvar.setAutoscrolls(true);
         btSalvar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -116,17 +122,20 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         });
 
         lbEmail.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbEmail.setForeground(new java.awt.Color(0, 0, 0));
         lbEmail.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbEmail.setText("E-mail:");
         lbEmail.setAutoscrolls(true);
         lbEmail.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lbTel.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbTel.setForeground(new java.awt.Color(0, 0, 0));
         lbTel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbTel.setText("Telefone:");
         lbTel.setAutoscrolls(true);
         lbTel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varEmail.setForeground(new java.awt.Color(0, 0, 0));
         varEmail.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         varEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -135,11 +144,13 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         });
 
         lbCep.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbCep.setForeground(new java.awt.Color(0, 0, 0));
         lbCep.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbCep.setText("CEP:");
         lbCep.setAutoscrolls(true);
         lbCep.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varCep.setForeground(new java.awt.Color(0, 0, 0));
         varCep.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         varCep.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -148,55 +159,68 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         });
 
         lbNúmero.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbNúmero.setForeground(new java.awt.Color(0, 0, 0));
         lbNúmero.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbNúmero.setText("Número:");
         lbNúmero.setAutoscrolls(true);
         lbNúmero.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varNumero.setForeground(new java.awt.Color(0, 0, 0));
         varNumero.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         varNumero.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         varNumero.setEnabled(false);
 
         lbLogradouro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbLogradouro.setForeground(new java.awt.Color(0, 0, 0));
         lbLogradouro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbLogradouro.setText("Logradouro:");
         lbLogradouro.setAutoscrolls(true);
         lbLogradouro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lbBairro.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbBairro.setForeground(new java.awt.Color(0, 0, 0));
         lbBairro.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbBairro.setText("Bairro:");
         lbBairro.setAutoscrolls(true);
         lbBairro.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         lbUf.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbUf.setForeground(new java.awt.Color(0, 0, 0));
         lbUf.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbUf.setText("UF:");
         lbUf.setAutoscrolls(true);
         lbUf.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varLocalidade.setForeground(new java.awt.Color(0, 0, 0));
         varLocalidade.setEnabled(false);
 
         lbLocalidade.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbLocalidade.setForeground(new java.awt.Color(0, 0, 0));
         lbLocalidade.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbLocalidade.setText("Localidade:");
         lbLocalidade.setAutoscrolls(true);
         lbLocalidade.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varUf.setForeground(new java.awt.Color(0, 0, 0));
         varUf.setEnabled(false);
 
+        varLogradouro.setForeground(new java.awt.Color(0, 0, 0));
         varLogradouro.setEnabled(false);
 
+        varBairro.setForeground(new java.awt.Color(0, 0, 0));
         varBairro.setEnabled(false);
 
         lbComplemento.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lbComplemento.setForeground(new java.awt.Color(0, 0, 0));
         lbComplemento.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lbComplemento.setText("Complemento:");
         lbComplemento.setAutoscrolls(true);
         lbComplemento.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        varComplemento.setForeground(new java.awt.Color(0, 0, 0));
         varComplemento.setEnabled(false);
 
+        varTel.setForeground(new java.awt.Color(0, 0, 0));
         try {
             varTel.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("(##) #####-####")));
         } catch (java.text.ParseException ex) {
@@ -236,6 +260,10 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         lbAstLocal.setForeground(new java.awt.Color(255, 0, 0));
         lbAstLocal.setText("*");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 51, 0));
+        jLabel2.setText("Preencha o CEP e de Tab!!");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -264,9 +292,12 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                         .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbAstNum))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(varTel, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(varCep, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(varEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -320,7 +351,8 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varCep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbCep))
+                    .addComponent(lbCep)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(varNumero, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -350,7 +382,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                     .addComponent(varComplemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(9, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -558,6 +590,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btSalvar;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbAstBairro;
     private javax.swing.JLabel lbAstEmail;
     private javax.swing.JLabel lbAstLocal;
